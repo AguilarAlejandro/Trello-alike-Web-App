@@ -1,6 +1,6 @@
 <% if (successMsg!="") { %>
 
-<div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-bottom: 0; color:black; font-size:16px !important;">
+<div class="alert alert-success alert-dismissible fade show popupAlert" role="alert">
     <%=successMsg %>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
@@ -9,22 +9,29 @@
 <% } %>
 
 <% if (errorMsg!="") { %>
-    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-bottom: 0; color:black; font-size:16px !important;">
-        <%=errorMsg%>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
+<div class="alert alert-danger alert-dismissible fade show popupAlert" role="alert"
+style="margin-bottom: 30px; 
+color:black; 
+font-size:16px !important;
+border: 5px solid black;">
+    <%=errorMsg%>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
 <% } %>
 
 <% if (typeof errors != "undefined" && errors ) { %>
+<!-- To check if its defined and not null-->
 <% errors.forEach(function(text) { %>
-    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-bottom: 0; color:black; font-size:16px !important;">
-        <%=text%>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
+<div class="alert alert-danger alert-dismissible fade show popupAlert" role="alert">
+    <%=JSON.stringify(text).slice(9,JSON.stringify(text).length-2)%>
+    <!-- Don't mind the cocaine used for the previous line-->
+    <!-- Messages would be {Text: "Passwords do not match. "} with the stringify but w/o the slice-->
+    <!-- Since we're working with an array of string.. (Array of array) a normal output would show [object, Object-->
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
 <% }) %>
 <% } %>
-

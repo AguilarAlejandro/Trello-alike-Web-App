@@ -9,11 +9,11 @@ userCtrl.signUp = async (req, res) => {
     //res.locals.errors = errors;
     const {name, email, password, confirmPassword } = req.body;
     if (password != confirmPassword) {
-        errors.push({text: 'Password do not match.'}); 
+        errors.push({text:'Password do not match.'}); 
        
     }
     if (password.length < 5) {
-        errors.push({text: 'Password should have atleast 6 characters.'});
+        errors.push({text:'Password should have atleast 6 characters.'});
     }
     if (errors.length>0) {
         res.render('./users/signUp', {errors})
@@ -25,9 +25,11 @@ userCtrl.signUp = async (req, res) => {
             res.redirect('/auth/signup');
         } else {
             const newUser = new user({name, email, password});
+            newUser.password = await newUser.encryptPassword(password);
             await newUser.save();
             console.log('New user is');
             console.log(newUser);
+            req.flash('success', 'Your account was registered!');
             res.redirect('/auth/login')
         }
     }
