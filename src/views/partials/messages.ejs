@@ -16,3 +16,15 @@
         </button>
     </div>
 <% } %>
+
+<% if (typeof errors != "undefined" && errors ) { %>
+<% errors.forEach(function(text) { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-bottom: 0; color:black; font-size:16px !important;">
+        <%=text%>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<% }) %>
+<% } %>
+

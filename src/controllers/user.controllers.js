@@ -5,18 +5,19 @@ userCtrl.renderSignUpForm = (req, res) => {
     res.render('./users/signUp');
 };
 userCtrl.signUp = async (req, res) => {
-    var er=0;
+    const errors = [];
+    //res.locals.errors = errors;
     const {name, email, password, confirmPassword } = req.body;
     if (password != confirmPassword) {
-        req.flash('error', 'Password do not match.'); 
-        er++;
+        errors.push({text: 'Password do not match.'}); 
+       
     }
     if (password.length < 5) {
-        req.flash('error', 'Password should have atleast 6 characters.');
-        er++;
+        errors.push({text: 'Password should have atleast 6 characters.'});
     }
-    if (er > 0) {
-        res.redirect('/auth/signUp')
+    if (errors.length>0) {
+        res.render('./users/signUp', {errors})
+       // res.redirect('/auth/signUp')
     } else {
         const userEmail = await user.findOne({email:email})
         if (userEmail) {
