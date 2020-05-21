@@ -10,24 +10,25 @@ const {
     renderEditForm, 
     updateBoard, 
     deleteBoard } = require('../controllers/board.controllers');
+const {isAuthenticated} = require('../config/auth');
 
 //New board
-router.get('/addboard', renderBoardForm);
+router.get('/addboard', isAuthenticated, renderBoardForm);
 router.post('/addboard', createNewBoard); 
 
 //Get all boards
-router.get('/board', renderBoards);
+router.get('/board', isAuthenticated, renderBoards);
 
 //Edit board
 
-router.get('/board/:id/edit', renderEditForm);
+router.get('/board/:id/edit', isAuthenticated, renderEditForm);
 router.put('/board/:id/edit', updateBoard);
 
 //Delete board
-router.delete('/board/:id/delete', deleteBoard);
+router.delete('/board/:id/delete', isAuthenticated, deleteBoard);
 
 //New card
-router.get('/board/:id/addcard', renderCardForm);
+router.get('/board/:id/addcard', isAuthenticated, renderCardForm);
 
 router.post('/board/:id/addcard', createNewCard);
 

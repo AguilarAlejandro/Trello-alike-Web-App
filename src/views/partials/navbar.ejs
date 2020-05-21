@@ -9,7 +9,11 @@
         <li class="nav-item active">
           <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about">About</a>
+        </li>
         <!-- Dropdown menu -->
+        <% if(userIsLogged) { %>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
@@ -18,15 +22,17 @@
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" href="/board">List all</a>
             <a class="dropdown-item" href="/addboard">Add a board</a>
-            <a class="dropdown-item" href="#">Something else here</a>
           </div>
         </li>
-        <!-- End of dropdown menu -->
+      </ul>
+      <!-- End of dropdown menu -->
+      <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link" href="/about">About</a>
+          <a href="/auth/logout" class="nav-link">Logout</a>
         </li>
       </ul>
-        
+      <% } else { %>
+      </ul> <!-- To close something del navbarNavDropdown-->
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
           <a href="/auth/login" class="nav-link">Login</a>
@@ -34,10 +40,7 @@
         <li class="nav-item">
           <a href="/auth/signup" class="nav-link">Register</a>
         </li>
-        <li class="nav-item">
-          <a href="/auth/logout" class="nav-link">Logout</a>
-        </li>
       </ul>
+      <% } %>
     </div>
-  </div>
 </nav>

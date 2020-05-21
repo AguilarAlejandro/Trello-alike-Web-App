@@ -1,12 +1,12 @@
 const userCtrl = {};
 const user = require('../models/users');
+const passport = require('passport');
 
 userCtrl.renderSignUpForm = (req, res) => {
     res.render('./users/signUp');
 };
 userCtrl.signUp = async (req, res) => {
     const errors = [];
-    //res.locals.errors = errors;
     const {name, email, password, confirmPassword } = req.body;
     if (password != confirmPassword) {
         errors.push({text:'Password do not match.'}); 
@@ -38,11 +38,17 @@ userCtrl.signUp = async (req, res) => {
 userCtrl.renderSignInForm = (req, res) => {
     res.render('./users/logIn');
 };
-userCtrl.logIn = (req, res) => {
-    res.send('User has signed in');
-};
+userCtrl.logIn = passport.authenticate('local',{
+    failureRedirect: '/auth/login',
+    successRedirect: '/board',
+    failureFlash:true,
+    successFlash: 'Welcome back! '
+});
+
 userCtrl.logOut = (req, res) => {
-    res.send('Logged out');
+    req.logout();
+    req.flash('success', 'You are logged out');
+    res.redirect('/');
 }
 
 module.exports = userCtrl;
