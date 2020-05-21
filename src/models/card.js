@@ -6,15 +6,19 @@ const cardSchema = new Schema({
         required:true
     },
     cardDescription:{
-        type:string,
+        type:String,
         required:true
     },
     addedBy:{
         type:String,
         required:true,
     },
-    timestamps:true
+    boardId:{
+        type:String,
+        required:true,
+    }
+}, {timestamps:true
     
 });
 
-module.exports = model('card',boardSchema);
+module.exports = model('card',cardSchema);

@@ -33,13 +33,12 @@ router.get('/board/:id/addcard', isAuthenticated, renderCardForm);
 router.post('/board/:id/addcard', createNewCard);
 
 // Get all cards from board
-router.get('/board/:id', renderCards);
-
+router.get('/board/:id',isAuthenticated, renderCards);
 
 // Edit cards
-router.get('/board/:id/edit/:id');
+router.get('/board/:id/edit/:id', isAuthenticated);
 
-router.put('/board/:id/edit/:id');
+router.put('/board/:id/edit/:id', isAuthenticated);
 
 
 module.exports = router;

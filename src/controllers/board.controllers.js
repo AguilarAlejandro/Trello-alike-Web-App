@@ -1,12 +1,11 @@
 const boardCtrl = {}; 
 const board = require('../models/board');
+const card = require('../models/card');
+var previousRoute = '/';
 
+///////// Boards /////////
 boardCtrl.renderBoardForm = (req,res) => {
     res.render('board/boardForm');
-};
-
-boardCtrl.renderCardForm = (req,res) => {
-    res.send('Add new board');
 };
 
 boardCtrl.createNewBoard = async (req,res) => {
@@ -25,18 +24,9 @@ boardCtrl.editBoard = (req,res) => {
     // const boards = await board.findById();
 };
 
-boardCtrl.createNewCard = (req,res) => {
-    res.send('new note');
-};
-
 boardCtrl.renderBoards = async (req,res) => {
     const boards = await board.find({createdBy: req.user.id}).sort({createdAt: 'desc'});
     res.render('./board/board', {boards}); // carpeta board, archivo board.ejs
-};
-
-boardCtrl.renderCards = (req,res) => {
-    res.send('Render cards');
-   
 };
 
 boardCtrl.renderEditForm = async (req,res) => {
@@ -66,6 +56,30 @@ boardCtrl.updateBoard = async (req,res) => {
     res.redirect('/board');
 };
 
+///////// Cards /////////
 
+boardCtrl.renderCardForm = async (req,res) => {
+    previousRoute = req.originalUrl
+    previousRoute = previousRoute.slice(0, previousRoute.length-7)
+    const currentBoard = await board.findById(req.params.id);
+    res.render('./board/cardsForm', {currentBoard});
+};
+
+boardCtrl.createNewCard = async (req,res) => {
+    const cardTitle = req.body.title;
+    const cardDescription = req.body.description;
+    const addedBy = req.user.id
+    const boardId = previousRoute.slice(7,previousRoute.length-1);
+    const newCard = new card({cardTitle,cardDescription,addedBy,boardId});
+    await newCard.save();
+    req.flash('success', 'Card added succesfully');
+    res.redirect(previousRoute);
+};
+
+boardCtrl.renderCards = async (req,res) => {
+    const currentCards = await card.find({boardId:req.params.id});
+    const currentBoard = await board.findById(req.params.id);
+    res.render('./board/cards', {currentCards, currentBoard});
+};
 
 module.exports = boardCtrl;

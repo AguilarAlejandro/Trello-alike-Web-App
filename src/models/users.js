@@ -14,8 +14,8 @@ const userSchema = new Schema({
     password:{
         type:String,
         required:true
-    },
-    //timestamps:true
+    }},
+    {timestamps:true
 });
 
 userSchema.methods.encryptPassword = async password => { //Parameter goes b4 arrow

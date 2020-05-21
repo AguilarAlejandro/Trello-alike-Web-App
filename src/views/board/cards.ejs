@@ -1,0 +1,35 @@
+<%- include('../partials/header.ejs') %>
+<%- include('../partials/navbar.ejs') %>
+<%- include('../partials/messages.ejs') %>
+<h1 class="display-4 mx-auto" style="text-align:center;">
+    <p><%=currentBoard.boardTitle%></p>
+</h1>
+<div class="row p-5">
+    <div class="col-md-2">
+        <a href="/board/<%=currentBoard._id%>/addcard" style="color:white;">
+            <div class="card d-flex justify-content-between">
+                <div class="row">
+                    <div class="col">
+                        <h1 class="display-4"
+                            style="text-align: center; position:relative; top:50%; transform: translateY(-50%);">+</h1>
+                    </div>
+                    <div class="col-8">
+                        <h1 class="display-4"
+                            style="text-align: center; position:relative; top:50%; transform: translateY(-50%);">New
+                            card</h1>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+    <% currentCards.forEach(card => { %>
+    <div class="col-md-2">
+        <div class="card">
+            <div class="card-title d-flex justify-content-between cardsContent">
+                <h4><%=card.cardTitle%></h4>
+                <a href='/board/<%=card.boardId%>/edit/<%=card._id%>'><i class="fa fa-pencil"></i></a>
+            </div>
+        </div>
+    </div>
+    <%})%>
+</div>
