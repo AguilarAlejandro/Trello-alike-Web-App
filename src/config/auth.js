@@ -8,4 +8,12 @@ auth.isAuthenticated = (req,res,next) => {
     res.redirect('/auth/login');
 }
 
+auth.isNotAuthenticated = (req, res,next) => {
+    if (!req.isAuthenticated()){
+        return next();
+    }
+    req.flash('warning', 'You are already logged in to an account.');
+    res.redirect('/');
+}
+
 module.exports = auth;

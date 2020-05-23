@@ -7,7 +7,9 @@ const {
     signUp, 
     logOut } = require('../controllers/user.controllers');
 
-router.get('/auth/signup', renderSignUpForm);
+const {isNotAuthenticated} = require('../config/auth');
+
+router.get('/auth/signup', isNotAuthenticated, renderSignUpForm);
 
 router.post('/auth/signup', signUp);
 

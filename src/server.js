@@ -31,9 +31,9 @@ app.use(flash());
 app.use((req,res,next) =>{
     res.locals.successMsg = req.flash('success');
     res.locals.errorMsg = req.flash('error');
+    res.locals.warningMsg = req.flash('warning');
     res.locals.currentUser = req.currentUser || null; // Importante, si el user no existe devuelve null..
     res.locals.userIsLogged = req.isAuthenticated();
-    
     next();
 }
 );

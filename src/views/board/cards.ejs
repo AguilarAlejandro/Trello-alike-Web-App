@@ -1,35 +1,85 @@
 <%- include('../partials/header.ejs') %>
 <%- include('../partials/navbar.ejs') %>
 <%- include('../partials/messages.ejs') %>
-<h1 class="display-4 mx-auto" style="text-align:center;">
-    <p><%=currentBoard.boardTitle%></p>
+<h1 class="display-4 mx-auto" style="text-align:center; color:white;">
+  <p><%=currentBoard.boardTitle%></p>
 </h1>
+
 <div class="row p-5">
-    <div class="col-md-2">
-        <a href="/board/<%=currentBoard._id%>/addcard" style="color:white;">
-            <div class="card d-flex justify-content-between">
-                <div class="row">
-                    <div class="col">
-                        <h1 class="display-4"
-                            style="text-align: center; position:relative; top:50%; transform: translateY(-50%);">+</h1>
-                    </div>
-                    <div class="col-8">
-                        <h1 class="display-4"
-                            style="text-align: center; position:relative; top:50%; transform: translateY(-50%);">New
-                            card</h1>
-                    </div>
-                </div>
-            </div>
-        </a>
-    </div>
-    <% currentCards.forEach(card => { %>
-    <div class="col-md-2">
-        <div class="card">
-            <div class="card-title d-flex justify-content-between cardsContent">
-                <h4><%=card.cardTitle%></h4>
-                <a href='/board/<%=card.boardId%>/edit/<%=card._id%>'><i class="fa fa-pencil"></i></a>
-            </div>
+
+  <div class="col-md-2">
+    <a href="/board/<%=currentBoard._id%>/addcard" style="color:white; text-decoration:none;">
+      <div class="card d-flex justify-content-between">
+        <div class="row">
+          <div class="col">
+            <h1 class="display-4" style="text-align: right; position:relative; top:50%; transform: translateY(-50%);"><i
+                class="fa fa-sticky-note" aria-hidden="true"></i></h1>
+          </div>
+          <div class="col-8">
+            <h1 class="display-4" style="text-align: left; position:relative; top:50%; transform: translateY(-50%);">New
+              card</h1>
+          </div>
         </div>
+      </div>
+    </a>
+  </div>
+
+  <% currentCards.forEach(card => { %>
+  <div class="col-md-2">
+    <div class="card">
+      <div class="card-title d-flex justify-content-between cardsContent">
+        <button type="button" class="transparentButton" data-toggle="modal"
+          data-target="#cardModal">
+          <h4><%=card.cardTitle%></h4>
+        </button>
+        
+        <a href='/board/<%=card.boardId%>/edit/<%=card._id%>' style="color:white;"><i class="fa fa-pencil"></i></a>
+      </div>
     </div>
-    <%})%>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="cardModal" tabindex="-1" role="dialog" aria-labelledby="cardModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cardModal">Title: <%=card.cardTitle%></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Description: <%=card.cardDescription%>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Close too mofo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="cardEditModal" tabindex="-1" role="dialog" aria-labelledby="cardEditModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cardEditModal">Title: <%=card.cardTitle%></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Description: <%=card.cardDescription%>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Close too mofo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%})%>
 </div>
+
+</html>

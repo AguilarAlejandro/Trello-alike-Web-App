@@ -57,29 +57,48 @@ boardCtrl.updateBoard = async (req,res) => {
 };
 
 ///////// Cards /////////
-
+    //Render card creation form
 boardCtrl.renderCardForm = async (req,res) => {
     previousRoute = req.originalUrl
     previousRoute = previousRoute.slice(0, previousRoute.length-7)
     const currentBoard = await board.findById(req.params.id);
     res.render('./board/cardsForm', {currentBoard});
 };
-
+      //Process card creation
 boardCtrl.createNewCard = async (req,res) => {
     const cardTitle = req.body.title;
     const cardDescription = req.body.description;
     const addedBy = req.user.id
     const boardId = previousRoute.slice(7,previousRoute.length-1);
+    
     const newCard = new card({cardTitle,cardDescription,addedBy,boardId});
     await newCard.save();
     req.flash('success', 'Card added succesfully');
     res.redirect(previousRoute);
 };
-
+      //Render all the cards from a board
 boardCtrl.renderCards = async (req,res) => {
     const currentCards = await card.find({boardId:req.params.id});
     const currentBoard = await board.findById(req.params.id);
     res.render('./board/cards', {currentCards, currentBoard});
 };
-
+      //Render card edition form
+boardCtrl.renderCardEditForm = async (req,res) => {
+        previousRoute = req.originalUrl;
+        previousRoute = previousRoute.slice(0,previousRoute.length-30); // Route is /board:id
+        boardId = previousRoute.slice(7,previousRoute.length);
+        const currentCard = await card.findById(req.params.id);
+        if (currentCard.addedBy != req.user.id) {
+            req.flash('error', 'You can only edit your cards');
+            return res.redirect('/board');
+        }
+        res.render('board/cardsEdit', {currentCard,boardId});
+    };
+       //Process card edition
+boardCtrl.updateCard = async (req,res) => {
+    const {title, description} = req.body; // Destructuring 
+    await card.findByIdAndUpdate(req.params.id, {cardTitle:title, cardDescription:description});
+    req.flash('success', 'Your card was edited');
+    res.redirect(previousRoute);
+}
 module.exports = boardCtrl;
