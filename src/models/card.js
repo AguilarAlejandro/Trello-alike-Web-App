@@ -9,6 +9,10 @@ const cardSchema = new Schema({
         type:String,
         required:true
     },
+    cardSubtitle:{
+        type: [String],
+        default:null
+    },
     addedBy:{
         type:String,
         required:true,

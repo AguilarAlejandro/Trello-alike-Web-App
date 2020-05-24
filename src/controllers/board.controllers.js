@@ -70,7 +70,6 @@ boardCtrl.createNewCard = async (req,res) => {
     const cardDescription = req.body.description;
     const addedBy = req.user.id
     const boardId = previousRoute.slice(7,previousRoute.length-1);
-    
     const newCard = new card({cardTitle,cardDescription,addedBy,boardId});
     await newCard.save();
     req.flash('success', 'Card added succesfully');
@@ -86,6 +85,8 @@ boardCtrl.renderCards = async (req,res) => {
 boardCtrl.renderCardEditForm = async (req,res) => {
         previousRoute = req.originalUrl;
         previousRoute = previousRoute.slice(0,previousRoute.length-30); // Route is /board:id
+        console.log('Previous route on renderCardEditForm');
+        console.log(previousRoute);
         boardId = previousRoute.slice(7,previousRoute.length);
         const currentCard = await card.findById(req.params.id);
         if (currentCard.addedBy != req.user.id) {
@@ -100,5 +101,17 @@ boardCtrl.updateCard = async (req,res) => {
     await card.findByIdAndUpdate(req.params.id, {cardTitle:title, cardDescription:description});
     req.flash('success', 'Your card was edited');
     res.redirect(previousRoute);
+};
+
+boardCtrl.addCardSubtitle = async (req,res) => {
+    await card.updateOne(
+        {_id : req.body.currentCardId}, 
+        {$addToSet:{"cardSubtitle" : req.body.title}
+    });
+    req.flash('success', 'Your subtitle was added!');
+    res.redirect('/board');
+};
+boardCtrl.deleteCard = async (req,res) => {
+
 }
 module.exports = boardCtrl;
