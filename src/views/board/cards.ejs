@@ -1,12 +1,12 @@
 <%- include('../partials/header.ejs') %>
 <%- include('../partials/navbar.ejs') %>
 <%- include('../partials/messages.ejs') %>
+
 <h1 class="display-4 mx-auto" style="text-align:center; color:white;">
   <p><%=currentBoard.boardTitle%></p>
 </h1>
 
-<div class="row p-5">
-
+<div class="row h-100">
   <div class="col-md-2">
     <a href="/board/<%=currentBoard._id%>/addcard" style="color:white; text-decoration:none;">
       <div class="card d-flex justify-content-between">
@@ -23,8 +23,11 @@
       </div>
     </a>
   </div>
+</div>
 
-  <% currentCards.forEach(card => { %>
+<div class="row p-5">
+
+  <% currentCards.forEach( card => { %>
   <div class="col-md-2">
     <div class="card">
       <div class="card-title d-flex justify-content-between cardsContent">
@@ -35,12 +38,11 @@
           <i class="fa fa-pencil"></i>
         </button>
       </div>
-      <button type="button" class="transparentButton" data-toggle="modal" data-target="#">
-      </button>
-      <div class="row p-5">
-        <p class="card-text badge badge-primary"><%=card.cardSubtitle %></p>
-      </div>
-      <button type="button" class="transparentButton" data-toggle="modal" data-target="#cardSubAddModal">
+      <% card.cardSubtitle.forEach(cardSubtitle => { %>
+        <p class="card-text badge badge-pill badge-danger my-1"><%=cardSubtitle%></p>
+      <% }) %>
+      <input type="hidden" name="ccId" value="<%=card._id%>" id="ccId">
+      <button type="button" class="transparentButton" data-toggle="modal" data-target="#cardSubAddModal" data-id="<%=card._id%>">
         <p class="card-text">Add a new subtitle</p>
       </button>
     </div>
@@ -126,13 +128,14 @@
                   </div>
                   <input type="text" class="form-control" name="title" placeholder="Enter card subtitle here">
                 </div>
-                <input type="hidden" name="currentCardId" value="<%=card._id%>">
+              
             </div>
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
           <button type="submit" class="btn btn-primary">Add subtitle</button>
+          <input type="hidden" name="currentCardId" id="currentId">
           </form>
         </div>
       </div>
@@ -142,4 +145,14 @@
   <%})%>
 </div>
 
+<script>
+  //Function that passes the correct card id to the modal footer hidden variable
+    $('#cardSubAddModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) 
+  var recipient = button.data('id') 
+  
+  var modal = $(this)
+  modal.find('.modal-footer input').val(recipient)
+})
+</script>
 </html>
