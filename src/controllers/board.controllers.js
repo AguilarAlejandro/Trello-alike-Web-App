@@ -97,10 +97,22 @@ boardCtrl.renderCardEditForm = async (req,res) => {
     };
        //Process card edition
 boardCtrl.updateCard = async (req,res) => {
-    const {title, description} = req.body; // Destructuring 
-    await card.findByIdAndUpdate(req.params.id, {cardTitle:title, cardDescription:description});
+    console.log(req.body);
+    const {title, description, currentCardId} = req.body; // Destructuring 
+    await card.findByIdAndUpdate(currentCardId, {cardTitle:title, cardDescription:description});
     req.flash('success', 'Your card was edited');
     res.redirect(previousRoute);
+};
+
+boardCtrl.deleteCard = async (req,res) => {
+    const currentCard = await card.findById(req.params.id);
+    if (currentCard.addedBy != req.user.id) { // Unnecesary because this works on a POST method
+        req.flash('error', 'You can only delete your boards');
+        return res.redirect('/board');
+    }
+    await card.findByIdAndDelete(req.params.id)
+    req.flash('success', 'Your board was deleted');
+    res.redirect('/board');
 };
 
 boardCtrl.addCardSubtitle = async (req,res) => {
@@ -111,7 +123,5 @@ boardCtrl.addCardSubtitle = async (req,res) => {
     req.flash('success', 'Your subtitle was added!');
     res.redirect('/board');
 };
-boardCtrl.deleteCard = async (req,res) => {
 
-}
 module.exports = boardCtrl;
