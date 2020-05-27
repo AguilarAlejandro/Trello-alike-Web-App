@@ -28,13 +28,10 @@
 <div class="row p-5 d-flex justify-content-center">
 
   <% currentCards.forEach( card => { %>
-  <div class="col-md-2">
-    <div class="card">
-      <div class="card-title d-flex justify-content-between cardsContent">
-        <button type="button" class="transparentButton" data-toggle="modal" data-target="#cardModal"
-          data-title="<%=card.cardTitle%>" data-desc="<%=card.cardDescription%>">
-          <h4><%=card.cardTitle%></h4>
-        </button>
+  <div class="col-md-2 cardsHorizontally">
+    <div class="card boardCards">
+      <div class="d-flex justify-content-between cardsContent">
+        
         <button type="button" class="transparentButton" data-toggle="modal" data-target="#cardEditModal"
           data-title="<%=card.cardTitle%>" data-desc="<%=card.cardDescription%>" data-id="<%=card._id%>">
           <i class="fa fa-pencil"></i>
@@ -46,6 +43,10 @@
           </button>
         </form>
       </div>
+      <button type="button" class="transparentButton" data-toggle="modal" data-target="#cardModal"
+          data-title="<%=card.cardTitle%>" data-desc="<%=card.cardDescription%>">
+          <h4><%=card.cardTitle%></h4>
+        </button>
       <% card.cardSubtitle.forEach(cardSubtitle => { %>
       <p class="card-text badge badge-pill badge-danger my-1"><%=cardSubtitle%></p>
       <% }) %>
@@ -71,7 +72,6 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Close too mofo</button>
         </div>
       </div>
     </div>

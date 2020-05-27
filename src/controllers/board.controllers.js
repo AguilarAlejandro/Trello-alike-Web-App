@@ -78,11 +78,12 @@ boardCtrl.createNewCard = async (req,res) => {
       //Render all the cards from a board
 boardCtrl.renderCards = async (req,res) => {
     const currentCards = await card.find({boardId:req.params.id});
-    const currentBoard = await board.findById(req.params.id);
-    res.render('./board/cards', {currentCards, currentBoard});
+    const currentBoard = await board.findById(req.params.id); // Needed on the front-end to generate proper redirect links
+    previousRoute = '/board/' + req.params.id; //added recently
+    res.render('./board/cards', {currentCards, currentBoard, previousRoute});
 };
       //Render card edition form
-boardCtrl.renderCardEditForm = async (req,res) => {
+/* boardCtrl.renderCardEditForm = async (req,res) => {
         previousRoute = req.originalUrl;
         previousRoute = previousRoute.slice(0,previousRoute.length-30); // Route is /board:id
         console.log('Previous route on renderCardEditForm');
@@ -94,8 +95,9 @@ boardCtrl.renderCardEditForm = async (req,res) => {
             return res.redirect('/board');
         }
         res.render('board/cardsEdit', {currentCard,boardId});
-    };
-       //Process card edition
+    }; */
+       
+    //Process card edition
 boardCtrl.updateCard = async (req,res) => {
     console.log(req.body);
     const {title, description, currentCardId} = req.body; // Destructuring 
@@ -103,18 +105,18 @@ boardCtrl.updateCard = async (req,res) => {
     req.flash('success', 'Your card was edited');
     res.redirect(previousRoute);
 };
-
+    //Process card deletion
 boardCtrl.deleteCard = async (req,res) => {
     const currentCard = await card.findById(req.params.id);
     if (currentCard.addedBy != req.user.id) { // Unnecesary because this works on a POST method
-        req.flash('error', 'You can only delete your boards');
-        return res.redirect('/board');
+        req.flash('error', 'You can only delete your cards');
+        return res.redirect(previousRoute);
     }
     await card.findByIdAndDelete(req.params.id)
-    req.flash('success', 'Your board was deleted');
-    res.redirect('/board');
+    req.flash('success', 'Your card was deleted');
+    res.redirect(previousRoute);
 };
-
+// Process subtitle addition
 boardCtrl.addCardSubtitle = async (req,res) => {
     await card.updateOne(
         {_id : req.body.currentCardId}, 

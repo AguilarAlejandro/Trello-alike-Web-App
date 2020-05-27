@@ -9,7 +9,7 @@ const {
     renderCards,
     renderEditForm, 
     updateBoard, 
-    renderCardEditForm,
+    //renderCardEditForm,
     updateCard,
     deleteCard,
     addCardSubtitle,
@@ -41,6 +41,7 @@ router.get('/board/:id',isAuthenticated, renderCards);
 
 // Edit cards
 //router.get('/board/:id/edit/:id', isAuthenticated, renderCardEditForm);
+
 router.put('/board/:id/editcard', isAuthenticated, updateCard);
 
 // Delete cards

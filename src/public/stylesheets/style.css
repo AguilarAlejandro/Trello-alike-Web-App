@@ -35,3 +35,14 @@ body{
     color:white; 
     border:none;
 }
+
+@media (max-width:768px) {
+    .boardCards{
+        margin-top: 10px;
+        margin-bottom:10px;
+    }
+    .boardsVertically{
+        margin-top:10px;
+        margin-bottom:10px;
+    }
+}
