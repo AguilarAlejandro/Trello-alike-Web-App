@@ -4,27 +4,27 @@
 <h1 class="display-4 mx-auto" style="text-align:center;">All boards</h1>
 <div class="row p-5">
     <% boards.forEach(board =>  { %>
-        <div class="col-md-4 boardsVertically">
-            <div class="card">
-                <div class="card-title d-flex justify-content-between allign-items-center">
-                    <h4><a href="/board/<%=board._id%>"><%=board.boardTitle%></h4></a>
-                   <a href="/board/<%=board._id%>/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></i></a>
-                </div>
-                <div class="card-body">
-                <p><%=board.boardDescription%></p>
-                </div>
+    <div class="col-md-4 boardsVertically">
+        <div class="card">
+            <div class="d-flex justify-content-between">
+                <a href="/board/<%=board._id%>/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                 <form action="/board/<%=board._id%>/delete?_method=DELETE" method="POST">
                     <input type="hidden" name="method" value="DELETE">
-                <button type="submit" class="btn btn-danger btn-block btn-sm">
-                Delete
-                </button>
+                    <button type="submit" class="btn btn-danger btn-sm">
+                        <i class="fa fa-times" style="width:20px;" aria-hidden="true"></i>
+                    </button>
                 </form>
             </div>
+            <h4 style="text-align:center;"><a href="/board/<%=board._id%>"><%=board.boardTitle%></h4></a>
+            <div class="card-body">
+                <p><%=board.boardDescription%></p>
+            </div>
+
         </div>
+    </div>
     <%})%>
 </div>
-    
+
 
 
 </html>
-

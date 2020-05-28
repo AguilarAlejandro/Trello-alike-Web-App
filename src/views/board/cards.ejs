@@ -13,12 +13,12 @@
         <div class="col">
           <h1 class="display-6"
             style="text-align:right; position:relative; top:60%; transform: translateY(-60%); left:25%;">
-            <i class="fa fa-sticky-note" aria-hidden="true"></i> </h1>
+            <i class="fa fa-sticky-note" aria-hidden="true"></i>
+          </h1>
         </div>
         <div class="col-8">
           <h1 class="display-4" style="text-align: left; position:relative; top:50%; transform: translateY(-50%);
-            font-size: 24px;">New
-            card</h1>
+            font-size: 24px;">New card</h1>
         </div>
       </div>
     </div>
@@ -30,8 +30,8 @@
   <% currentCards.forEach( card => { %>
   <div class="col-md-2 cardsHorizontally">
     <div class="card boardCards">
-      <div class="d-flex justify-content-between cardsContent">
-        
+      <div class="d-flex justify-content-between">
+
         <button type="button" class="transparentButton" data-toggle="modal" data-target="#cardEditModal"
           data-title="<%=card.cardTitle%>" data-desc="<%=card.cardDescription%>" data-id="<%=card._id%>">
           <i class="fa fa-pencil"></i>
@@ -44,9 +44,9 @@
         </form>
       </div>
       <button type="button" class="transparentButton" data-toggle="modal" data-target="#cardModal"
-          data-title="<%=card.cardTitle%>" data-desc="<%=card.cardDescription%>">
-          <h4><%=card.cardTitle%></h4>
-        </button>
+        data-title="<%=card.cardTitle%>" data-desc="<%=card.cardDescription%>">
+        <h4><%=card.cardTitle%></h4>
+      </button>
       <% card.cardSubtitle.forEach(cardSubtitle => { %>
       <p class="card-text badge badge-pill badge-danger my-1"><%=cardSubtitle%></p>
       <% }) %>
