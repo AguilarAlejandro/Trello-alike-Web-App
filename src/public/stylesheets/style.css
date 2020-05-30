@@ -1,16 +1,4 @@
-body{
 
-}
-.jumbotron{
-   /* background-color:#F3F3F3;*/
-}
-
-.card{ 
-   /* background-color:#F3F3F3;
-}
-.card-header{
-    background-color:#F3F3F3; */
-}
 .popupAlert{
     margin-bottom: 0; 
     color:black; 
@@ -36,6 +24,17 @@ body{
     border:none;
 }
 
+.center {
+    margin-left:auto;
+    margin-right:auto;
+}
+
+@media (min-width:1600px) {
+    .card-text{
+        font-size:0.8em;
+    }
+}
+
 @media (max-width:768px) {
     .boardCards{
         margin-top: 10px;
@@ -45,4 +44,14 @@ body{
         margin-top:10px;
         margin-bottom:10px;
     }
+
+
+}
+
+@media (max-width:1400px) {
+   
+}
+
+@media (max-width:1200px) {
+   
 }

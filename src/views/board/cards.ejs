@@ -25,6 +25,16 @@
   </a>
 </div>
 
+<% if (JSON.stringify(currentCards)=='[]') { %>
+  <div class="row">
+      <h1 class="display-4 center">No cards to display</h1>
+  </div>
+  <div class="row">
+      <img src="/images/data-not-found.png" alt="No boards found" class="center">
+  </div>
+  
+  <% } else { %>
+
 <div class="row p-5 d-flex justify-content-center">
 
   <% currentCards.forEach( card => { %>
@@ -151,6 +161,7 @@
   </div>
 
   <%})%>
+  <% } %>
 </div>
 
 <script>
