@@ -14,23 +14,19 @@ boardCtrl.createNewBoard = async (req, res) => {
         res.redirect('/board');
     }
     else {
-
         const boardTitle = req.body.title;
         const boardDescription = req.body.description;
-
         const newBoard = new board({ boardTitle, boardDescription });
         newBoard.createdBy = req.user.id;
         await newBoard.save();
-
         req.flash('success', 'Board created succesfully');
         res.redirect('/board');
     }
 };
 
-boardCtrl.editBoard = (req, res) => {
+/* boardCtrl.editBoard = (req, res) => {
     res.send("Editing board");
-    // const boards = await board.findById();
-};
+}; */
 
 boardCtrl.renderBoards = async (req, res) => {
     const boards = await board.find({ createdBy: req.user.id }).sort({ createdAt: 'desc' });
