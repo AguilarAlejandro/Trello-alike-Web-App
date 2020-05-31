@@ -1,10 +1,10 @@
 <%- include('../partials/header.ejs') %>
 <%- include('../partials/navbar.ejs') %>
-<%- include('../partials/messages.ejs') %>   
-<div class="container p-5">
-    
+<%- include('../partials/messages.ejs') %>
+<script src="https://www.google.com/recaptcha/api.js"></script>
 
-    <div class="row" >
+<div class="container p-5">
+    <div class="row">
         <div class="col-md-6 m-auto">
             <div class="card">
                 <div class="card-header">
@@ -15,14 +15,16 @@
                         <!-- Name field-->
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fa fa-user-circle" aria-hidden="true"></i></span>
+                                <span class="input-group-text"><i class="fa fa-user-circle"
+                                        aria-hidden="true"></i></span>
                             </div>
                             <input type="text" class="form-control" name="name" autofocus placeholder="Enter your name">
                         </div>
                         <!-- Email field-->
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
+                                <span class="input-group-text"><i class="fa fa-envelope-o"
+                                        aria-hidden="true"></i></span>
                             </div>
                             <input type="email" class="form-control" name="email" placeholder="Enter your email">
                         </div>
@@ -30,17 +32,19 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-key" aria-hidden="true"></i></span>
                             </div>
-                            <input type="password" class="form-control" name="password" placeholder="Enter your password">
+                            <input type="password" class="form-control" name="password"
+                                placeholder="Enter your password">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-key" aria-hidden="true"></i></span>
                             </div>
-                            <input type="password" class="form-control" name="confirmPassword" placeholder="Confirm password">
+                            <input type="password" class="form-control" name="confirmPassword"
+                                placeholder="Confirm password">
                         </div>
-                        <button class="g-recaptcha btn btn-primary btn-block" 
-                        data-sitekey="6LcZVf4UAAAAAIRhbMqJJAM_3fjvayO-MrbYMGwh" data-callback='onSubmit' 
-                        data-action='submit'>Sign Up</button>
+                        <button class="g-recaptcha btn btn-primary btn-block"
+                            data-sitekey="6LcZVf4UAAAAAIRhbMqJJAM_3fjvayO-MrbYMGwh" data-callback='onSubmit'
+                            data-action='submit'>Sign Up</button>
                     </form>
                 </div>
             </div>
