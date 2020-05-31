@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const { NODEMONGO_MONGODB_HOST, NODEMONGO_MONGODB_DATABASE} = process.env;
+//const { NODEMONGO_MONGODB_HOST, NODEMONGO_MONGODB_DATABASE, DBPASSWORD} = process.env;
 //const MONGODB_URI = `mongodb://${NODEMONGO_MONGODB_HOST}/${NODEMONGO_MONGODB_DATABASE}`;
 const MONGODB_URI = `mongodb+srv://Alejandro:<DBPASSWORD>@padmidb-d8iu9.mongodb.net/test?retryWrites=true&w=majority`;
 
