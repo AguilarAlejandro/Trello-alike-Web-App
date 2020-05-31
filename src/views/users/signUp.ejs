@@ -11,7 +11,7 @@
                     <h1 class="display-3" style="font-size:40px; text-align:center">Register your account</h1>
                 </div>
                 <div class="card-body">
-                    <form action="/auth/signup" method="post">
+                    <form action="/auth/signup" method="post" id="signUpForm">
                         <!-- Name field-->
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -54,6 +54,6 @@
 
 <script>
     function onSubmit(token) {
-        document.getElementById("loginForm").submit();
+        document.getElementById("signUpForm").submit();
     }
 </script>
