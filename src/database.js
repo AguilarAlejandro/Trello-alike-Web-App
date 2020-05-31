@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 
-//const { NODEMONGO_MONGODB_HOST, NODEMONGO_MONGODB_DATABASE, DBPASSWORD} = process.env;
-//const MONGODB_URI = `mongodb://${NODEMONGO_MONGODB_HOST}/${NODEMONGO_MONGODB_DATABASE}`;
-mongoose.connect(process.env.MONGODB_URI||'mongodb://localhost/NODEMONGO', {
+const { NODEMONGO_MONGODB_HOST, NODEMONGO_MONGODB_DATABASE, DBPASSWORD} = process.env;
+mongoose.connect(process.env.MONGODB_URI||`mongodb://${NODEMONGO_MONGODB_HOST}/${NODEMONGO_MONGODB_DATABASE}`, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useCreateIndex:true

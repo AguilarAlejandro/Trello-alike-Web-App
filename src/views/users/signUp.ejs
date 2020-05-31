@@ -38,10 +38,18 @@
                             </div>
                             <input type="password" class="form-control" name="confirmPassword" placeholder="Confirm password">
                         </div>
-                        <button class="btn btn-primary btn-block">Sign up</button>
+                        <button class="g-recaptcha btn btn-primary btn-block" 
+                        data-sitekey="6LcZVf4UAAAAAIRhbMqJJAM_3fjvayO-MrbYMGwh" data-callback='onSubmit' 
+                        data-action='submit'>Sign Up</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    function onSubmit(token) {
+        document.getElementById("loginForm").submit();
+    }
+</script>
