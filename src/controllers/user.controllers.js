@@ -3,10 +3,14 @@ const user = require('../models/users');
 const passport = require('passport');
 const nodemailer = require('nodemailer');
 const { EMAIL, EMAIL_PASSWORD } = process.env;
+var async = require('async');
+var crypto = require('crypto');
+
 
 userCtrl.renderSignUpForm = (req, res) => {
     res.render('./users/signUp');
 };
+
 userCtrl.signUp = async (req, res) => {
     const errors = [];
     const { name, email, password, confirmPassword } = req.body;
@@ -36,6 +40,7 @@ userCtrl.signUp = async (req, res) => {
 userCtrl.renderSignInForm = (req, res) => {
     res.render('./users/logIn');
 };
+
 userCtrl.logIn = passport.authenticate('local', {
     failureRedirect: '/auth/login',
     successRedirect: '/board',
@@ -47,6 +52,10 @@ userCtrl.logOut = (req, res) => {
     req.logout();
     req.flash('success', 'You are logged out');
     res.redirect('/');
+};
+
+userCtrl.renderResetForm = (req, res) => {
+    res.render('./users/forgot', { user: req.user });
 };
 
 userCtrl.renderResetForm = (req, res) => {
@@ -93,7 +102,7 @@ userCtrl.resetPassword = async (req, res, next) => {
                 subject: 'Reset your Padmi account password',
                 text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
                     'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-                    'http://' + req.headers.host + '/reset/' + token + '\n\n' +
+                    'http://' + req.headers.host + '/auth/reset/' + token + '\n\n' +
                     'If you did not request this, please ignore this email and your password will remain unchanged.\n'
             };
 
@@ -108,7 +117,87 @@ userCtrl.resetPassword = async (req, res, next) => {
         }
     ], function (err) {
         if (err) return next(err);
-        res.redirect('/forgot');
+        res.redirect('/auth/forgot');
+    });
+};
+
+userCtrl.processPasswordReset = async (req, res) => {
+    const currentToken = req.params.token;
+    user.findOne({ resetPasswordToken: req.params.token }, function (err, user) {
+        if (!user) {
+            req.flash('error', 'Password reset token is invalid or has expired.');
+            return res.redirect('/auth/forgot');
+        }
+        var previousRoute = '/auth/reset/' + currentToken;
+        console.log('previous route is ', previousRoute);
+        res.render('./users/reset', {
+            user: req.user, currentToken
+        });
+    });
+};
+
+userCtrl.setNewPassword = async (req, res) => {
+
+    async.waterfall([
+        function (done) {
+            user.findOne({ resetPasswordToken: req.params.token }, function (err, user) {
+                if (!user) {
+                    req.flash('error', 'Password reset token is invalid or has expired.');
+                    return res.redirect('back');
+                }
+                const { password, confirmPassword } = req.body;
+                if (password != confirmPassword) {
+                   req.flash('error', 'Passwords do not match.');
+                  res.redirect('back');
+                }
+                if (password.length < 5) {
+                    req.flash('error', 'Password should have atleast 6 characters.');
+                    res.redirect('back');
+                }
+                    user.password = user.encryptPassword(password);
+                    user.resetPasswordToken = undefined;
+                    user.save();
+                   /* user.save(function (err) {
+                        req.logIn(user, function (err) { // POSSIBLE CAUSE OF ERROR
+                            done(err, user);
+                        });
+                    }); */
+            });
+        },
+
+        function (user, done) {
+            var transporter = nodemailer.createTransport({
+                host: "smtp.gmail.com",
+                auth: {
+                    type: "login", // default
+                    user: process.env.EMAIL,
+                    pass: process.env.EMAIL_PASSWORD,
+                },
+                tls: {
+                    rejectUnauthorized: false
+                }
+            });
+
+            var mailOptions = {
+                to: user.email,
+                from: process.env.EMAIL,
+                subject: 'Your Padmi account password has been changed',
+                text: 'Hello,\n\n' +
+                    'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
+            };
+
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email sent: ' + info.response);
+                    req.flash('success', 'Welcome back!');
+                    res.redirect('/')
+                }
+            });
+        }
+    ], function (err) {
+        res.redirect('/');
     });
 };
 
