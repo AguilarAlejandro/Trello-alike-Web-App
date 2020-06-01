@@ -24,10 +24,6 @@ boardCtrl.createNewBoard = async (req, res) => {
     }
 };
 
-/* boardCtrl.editBoard = (req, res) => {
-    res.send("Editing board");
-}; */
-
 boardCtrl.renderBoards = async (req, res) => {
     const boards = await board.find({ createdBy: req.user.id }).sort({ createdAt: 'desc' });
     res.render('./board/board', { boards }); // carpeta board, archivo board.ejs
@@ -93,20 +89,6 @@ boardCtrl.renderCards = async (req, res) => {
     previousRoute = '/board/' + req.params.id;
     res.render('./board/cards', { currentCards, currentBoard, previousRoute });
 };
-//Render card edition form
-/* boardCtrl.renderCardEditForm = async (req,res) => {
-        previousRoute = req.originalUrl;
-        previousRoute = previousRoute.slice(0,previousRoute.length-30); // Route is /board:id
-        console.log('Previous route on renderCardEditForm');
-        console.log(previousRoute);
-        boardId = previousRoute.slice(7,previousRoute.length);
-        const currentCard = await card.findById(req.params.id);
-        if (currentCard.addedBy != req.user.id) {
-            req.flash('error', 'You can only edit your cards');
-            return res.redirect('/board');
-        }
-        res.render('board/cardsEdit', {currentCard,boardId});
-    }; */
 
 //Process card edition
 boardCtrl.updateCard = async (req, res) => {

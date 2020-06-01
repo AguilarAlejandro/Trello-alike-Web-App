@@ -5,6 +5,8 @@ const {
     renderSignInForm, 
     logIn, 
     signUp, 
+    renderResetForm,
+    resetPassword,
     logOut } = require('../controllers/user.controllers');
 
 const {isNotAuthenticated} = require('../config/auth');
@@ -18,5 +20,9 @@ router.get('/auth/login', renderSignInForm);
 router.post('/auth/login', logIn);
 
 router.get('/auth/logout', logOut);
+
+router.get('/auth/forgot', renderResetForm);
+
+router.post('/auth/forgot', resetPassword);
 
 module.exports = router;

@@ -8,28 +8,21 @@
         <div class="col-md-6 mx-auto">
             <div class="card">
                 <div class="card-header">
-                    <h1 class="display-3" style="font-size:40px; text-align:center">Log in</h1>
+                    <h1 class="display-3" style="font-size:40px; text-align:center">Forgot your password?</h1>
                 </div>
                 <div class="card-body">
-                    <form action="/auth/login" method="post" id="loginForm">
+                    <form action="/auth/forgot" method="post" id="forgotForm">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-envelope-o"
                                         aria-hidden="true"></i></span>
                             </div>
                             <input type="email" class="form-control" name="email" autofocus
-                                placeholder="Enter your email">
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fa fa-key" aria-hidden="true"></i></span>
-                            </div>
-                            <input type="password" class="form-control" name="password"
-                                placeholder="Enter your password">
+                                placeholder="Enter your account's email">
                         </div>
                         <button class="g-recaptcha btn btn-primary btn-block" 
                         data-sitekey="6LcZVf4UAAAAAIRhbMqJJAM_3fjvayO-MrbYMGwh" data-callback='onSubmit' 
-                        data-action='submit'>Log In</button>
+                        data-action='submit'>Send recovery mail</button>
                     </form>
                 </div>
             </div>
@@ -38,7 +31,7 @@
     
     <script>
         function onSubmit(token) {
-            document.getElementById("loginForm").submit();
+            document.getElementById("forgotForm").submit();
         }
     </script>
 </div>
