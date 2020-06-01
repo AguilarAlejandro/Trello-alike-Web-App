@@ -26,20 +26,21 @@
 </div>
 
 <% if (JSON.stringify(currentCards)=='[]') { %>
-  <div class="row">
-      <h1 class="display-4 center">No cards to display</h1>
-  </div>
-  <div class="row">
-      <img src="/images/data-not-found.png" alt="No boards found" class="center">
-  </div>
-  
-  <% } else { %>
+<div class="row">
+  <h1 class="display-4 center">No cards to display</h1>
+</div>
+<div class="row">
+  <img src="/images/data-not-found.png" alt="No boards found" class="center">
+</div>
+
+<% } else { %>
 
 <div class="row p-5 d-flex justify-content-center">
-
+<ul class="card boardCards list-group" id="cardGroup">
   <% currentCards.forEach( card => { %>
-  <div class="col-md-2 cardsHorizontally">
-    <div class="card boardCards">
+  <li class="list-group-item">
+    <div class="col-md-2 cardsHorizontally">
+
       <div class="d-flex justify-content-between">
 
         <button type="button" class="transparentButton" data-toggle="modal" data-target="#cardEditModal"
@@ -55,7 +56,7 @@
       </div>
       <button type="button" class="transparentButton" data-toggle="modal" data-target="#cardModal"
         data-title="<%=card.cardTitle%>" data-desc="<%=card.cardDescription%>">
-        <h4><%=card.cardTitle%></h4>
+        <h4 class="cardTitle"><%=card.cardTitle%></h4>
       </button>
       <% card.cardSubtitle.forEach(cardSubtitle => { %>
       <p class="card-text badge badge-pill badge-danger my-1"><%=cardSubtitle%></p>
@@ -65,7 +66,7 @@
         <p class="card-text">Add a new subtitle</p>
       </button>
     </div>
-  </div>
+  </li>
 
   <!-- Card modal -->
   <div class="modal fade" id="cardModal" tabindex="-1" role="dialog" aria-labelledby="cardModal" aria-hidden="true">
@@ -161,6 +162,7 @@
   </div>
 
   <%})%>
+</ul>
   <% } %>
 </div>
 
@@ -196,6 +198,10 @@
     var modal = $(this)
     modal.find('.modal-footer input').val(recipient)
   })
+
+
+  Sortable.create(cardGroup, { animation: 100, group: 'list-1', draggable: '.list-group-item', handle: '.list-group-item', sort: true, filter: '.sortable-disabled', chosenClass: 'active' });
+
 </script>
 
 </html>
