@@ -1,10 +1,12 @@
 const indexCtrl = {}; 
 
 indexCtrl.renderIndex = (req,res) => {
-        res.render('index')
+        const pageTitle = 'Home'
+        res.render('index', {pageTitle})
     }
     indexCtrl.renderAbout = (req,res) => {
-        res.render('about')
+        const pageTitle = 'About'
+        res.render('about', {pageTitle})
     }
 
 

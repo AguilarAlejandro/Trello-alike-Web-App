@@ -7,7 +7,8 @@ var async = require('async');
 var crypto = require('crypto');
 
 userCtrl.renderSignUpForm = (req, res) => {
-    res.render('./users/signUp');
+    const pageTitle = 'Sign Up'
+    res.render('./users/signUp', {pageTitle});
 };
 
 userCtrl.signUp = async (req, res) => {
@@ -38,7 +39,8 @@ userCtrl.signUp = async (req, res) => {
     }
 };
 userCtrl.renderSignInForm = (req, res) => {
-    res.render('./users/logIn');
+    const pageTitle = 'Sign In';
+    res.render('./users/logIn', {pageTitle});
 };
 
 userCtrl.logIn = passport.authenticate('local', {
@@ -55,11 +57,8 @@ userCtrl.logOut = (req, res) => {
 };
 
 userCtrl.renderResetForm = (req, res) => {
-    res.render('./users/forgot', { user: req.user });
-};
-
-userCtrl.renderResetForm = (req, res) => {
-    res.render('./users/forgot', { user: req.user });
+    const pageTitle = 'Forgot password';
+    res.render('./users/forgot', { user: req.user, pageTitle });
 };
 
 userCtrl.resetPassword = async (req, res, next) => {
@@ -125,6 +124,7 @@ userCtrl.resetPassword = async (req, res, next) => {
 };
 
 userCtrl.processPasswordReset = async (req, res) => {
+    const pageTitle = 'Reset password';
     const currentToken = req.params.token;
     user.findOne({ resetPasswordToken: req.params.token }, function (err, user) {
         if (!user) {
@@ -134,7 +134,7 @@ userCtrl.processPasswordReset = async (req, res) => {
         var previousRoute = '/auth/reset/' + currentToken;
         console.log('previous route is ', previousRoute);
         res.render('./users/reset', {
-            user: req.user, currentToken
+            user: req.user, currentToken, pageTitle
         });
     });
 };

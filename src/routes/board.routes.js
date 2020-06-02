@@ -9,7 +9,6 @@ const {
     renderCards,
     renderEditForm, 
     updateBoard, 
-    //renderCardEditForm,
     updateCard,
     deleteCard,
     addCardSubtitle,
@@ -37,10 +36,7 @@ router.get('/board/:id/addcard', isAuthenticated, renderCardForm);
 router.post('/board/:id/addcard', createNewCard);
 
 // Get all cards from board
-router.get('/board/:id',isAuthenticated, renderCards);
-
-// Edit cards
-//router.get('/board/:id/edit/:id', isAuthenticated, renderCardEditForm);
+router.get('/board/:id', isAuthenticated, renderCards);
 
 router.put('/board/:id/editcard', isAuthenticated, updateCard);
 

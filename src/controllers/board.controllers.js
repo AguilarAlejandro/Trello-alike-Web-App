@@ -5,7 +5,8 @@ var previousRoute = '/';
 
 ///////// Boards /////////
 boardCtrl.renderBoardForm = (req, res) => {
-    res.render('board/boardForm');
+    const pageTitle = 'Create new board';
+    res.render('board/boardForm',{pageTitle});
 };
 
 boardCtrl.createNewBoard = async (req, res) => {
@@ -25,17 +26,19 @@ boardCtrl.createNewBoard = async (req, res) => {
 };
 
 boardCtrl.renderBoards = async (req, res) => {
+    const pageTitle = 'Boards';
     const boards = await board.find({ createdBy: req.user.id }).sort({ createdAt: 'desc' });
-    res.render('./board/board', { boards }); // carpeta board, archivo board.ejs
+    res.render('./board/board', { boards, pageTitle }); // carpeta board, archivo board.ejs
 };
 
 boardCtrl.renderEditForm = async (req, res) => {
+    const pageTitle = 'Edit board';
     const currentBoard = await board.findById(req.params.id);
     if (currentBoard.createdBy != req.user.id) {
         req.flash('error', 'You can only edit your boards');
         return res.redirect('/board');
     }
-    res.render('board/boardedit', { currentBoard });
+    res.render('board/boardedit', { currentBoard, pageTitle });
 };
 
 boardCtrl.deleteBoard = async (req, res) => {
@@ -60,10 +63,11 @@ boardCtrl.updateBoard = async (req, res) => {
 ///////// Cards /////////
 //Render card creation form
 boardCtrl.renderCardForm = async (req, res) => {
+    const pageTitle = 'Add new card';
     previousRoute = req.originalUrl
     previousRoute = previousRoute.slice(0, previousRoute.length - 7)
     const currentBoard = await board.findById(req.params.id);
-    res.render('./board/cardsForm', { currentBoard });
+    res.render('./board/cardsForm', { currentBoard, pageTitle });
 };
 //Process card creation
 boardCtrl.createNewCard = async (req, res) => {
@@ -84,10 +88,11 @@ boardCtrl.createNewCard = async (req, res) => {
 };
 //Render all the cards from a board
 boardCtrl.renderCards = async (req, res) => {
+    const pageTitle = 'Your board';
     const currentCards = await card.find({ boardId: req.params.id });
     const currentBoard = await board.findById(req.params.id); // Needed on the front-end to generate proper redirect links
     previousRoute = '/board/' + req.params.id;
-    res.render('./board/cards', { currentCards, currentBoard, previousRoute });
+    res.render('./board/cards', { currentCards, currentBoard, previousRoute, pageTitle });
 };
 
 //Process card edition
