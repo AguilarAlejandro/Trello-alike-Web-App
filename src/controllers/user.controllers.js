@@ -6,7 +6,6 @@ const { EMAIL, EMAIL_PASSWORD } = process.env;
 var async = require('async');
 var crypto = require('crypto');
 
-
 userCtrl.renderSignUpForm = (req, res) => {
     res.render('./users/signUp');
 };
@@ -15,11 +14,12 @@ userCtrl.signUp = async (req, res) => {
     const errors = [];
     const { name, email, password, confirmPassword } = req.body;
     if (password != confirmPassword) {
-        errors.push({ text: 'Password do not match.' });
-
+        req.flash('error', 'Passwords do not match.');
+        res.redirect('back');
     }
     if (password.length < 5) {
-        errors.push({ text: 'Password should have atleast 6 characters.' });
+        req.flash('error', 'Passwords should be atleast 6 characters');
+        res.redirect('back');
     }
     if (errors.length > 0) {
         res.render('./users/signUp', { errors })
@@ -74,7 +74,7 @@ userCtrl.resetPassword = async (req, res, next) => {
             user.findOne({ email: req.body.email }, function (err, user) {
                 if (!user) {
                     req.flash('error', 'No account with that email address exists.');
-                    return res.redirect('/forgot');
+                    return res.redirect('/auth/forgot');
                 }
                 user.resetPasswordToken = token;
                 user.save(function (err) {
@@ -100,10 +100,12 @@ userCtrl.resetPassword = async (req, res, next) => {
                 from: process.env.EMAIL,
                 to: user.email,
                 subject: 'Reset your Padmi account password',
-                text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-                    'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+                text: `Greetings ${user.name}, \n\n` +
+                    'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+                    'Please open the following link to complete the process:\n\n' +
                     'http://' + req.headers.host + '/auth/reset/' + token + '\n\n' +
-                    'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+                    'If you did not request this, please ignore this email and your password will remain unchanged.\n\n\n\n' +
+                    'Do not respond to this email address as it is not monitored'
             };
 
             transporter.sendMail(mailOptions, function (error, info) {
@@ -111,7 +113,8 @@ userCtrl.resetPassword = async (req, res, next) => {
                     console.log(error);
                 } else {
                     console.log('Email sent: ' + info.response);
-                    res.send('Email sent');
+                    req.flash('success', 'An email with further information has been sent to you');
+                    res.redirect('/');
                 }
             });
         }
@@ -138,67 +141,61 @@ userCtrl.processPasswordReset = async (req, res) => {
 
 userCtrl.setNewPassword = async (req, res) => {
 
-    async.waterfall([
-        function (done) {
-            user.findOne({ resetPasswordToken: req.params.token }, function (err, user) {
-                if (!user) {
-                    req.flash('error', 'Password reset token is invalid or has expired.');
-                    return res.redirect('back');
-                }
-                const { password, confirmPassword } = req.body;
-                if (password != confirmPassword) {
-                   req.flash('error', 'Passwords do not match.');
-                  res.redirect('back');
-                }
-                if (password.length < 5) {
-                    req.flash('error', 'Password should have atleast 6 characters.');
-                    res.redirect('back');
-                }
-                    user.password = user.encryptPassword(password);
-                    user.resetPasswordToken = undefined;
-                    user.save();
-                   /* user.save(function (err) {
-                        req.logIn(user, function (err) { // POSSIBLE CAUSE OF ERROR
-                            done(err, user);
-                        });
-                    }); */
-            });
-        },
+    const currentUser = await user.findOne({ resetPasswordToken: req.params.token })
 
-        function (user, done) {
-            var transporter = nodemailer.createTransport({
-                host: "smtp.gmail.com",
-                auth: {
-                    type: "login", // default
-                    user: process.env.EMAIL,
-                    pass: process.env.EMAIL_PASSWORD,
-                },
-                tls: {
-                    rejectUnauthorized: false
-                }
-            });
+    if (!currentUser) {
+        req.flash('error', 'Password reset token is invalid or has expired.');
+        return res.redirect('back');
+    } else {
 
-            var mailOptions = {
-                to: user.email,
-                from: process.env.EMAIL,
-                subject: 'Your Padmi account password has been changed',
-                text: 'Hello,\n\n' +
-                    'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
-            };
+        const { password, confirmPassword } = req.body;
+        if (password != confirmPassword) {
+            req.flash('error', 'Passwords do not match.');
+            res.redirect('back');
+        } else {
 
-            transporter.sendMail(mailOptions, function (error, info) {
-                if (error) {
-                    console.log(error);
-                } else {
-                    console.log('Email sent: ' + info.response);
-                    req.flash('success', 'Welcome back!');
-                    res.redirect('/')
-                }
-            });
+            if (password.length < 5) {
+                req.flash('error', 'Password should have atleast 6 characters.');
+                res.redirect('back');
+            } else {
+
+                currentUser.password = await currentUser.encryptPassword(password);
+                currentUser.resetPasswordToken = undefined;
+                await currentUser.save();
+
+                var transporter = nodemailer.createTransport({
+                    host: "smtp.gmail.com",
+                    auth: {
+                        type: "login",
+                        user: process.env.EMAIL,
+                        pass: process.env.EMAIL_PASSWORD,
+                    },
+                    tls: {
+                        rejectUnauthorized: false
+                    }
+                });
+
+                var mailOptions = {
+                    to: currentUser.email,
+                    from: process.env.EMAIL,
+                    subject: 'Your Padmi account password has been changed',
+                    text: `Hello ${currentUser.name},\n\n` +
+                        `This is a confirmation that the password for your account ${currentUser.email} has just been changed.\n\n\n\n` +
+                        'Do not respond to this email address as it is not monitored'
+                };
+
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log('Email sent: ' + info.response);
+                        req.flash('success', 'Your password was reset! You can log in now.');
+                        res.redirect('/')
+                    }
+                });
+            }
         }
-    ], function (err) {
-        res.redirect('/');
-    });
-};
+    }
+}
 
 module.exports = userCtrl;
