@@ -20,7 +20,8 @@ const cardSchema = new Schema({
     boardId:{
         type:String,
         required:true,
-    }
+    },
+    position:Number,
 }, {timestamps:true
     
 });

@@ -6,6 +6,7 @@ const methodOverride = require('method-override');
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
+const bodyParser = require('body-parser'); // NEW NEW
 
 //Initialization
 
@@ -39,6 +40,10 @@ app.use((req,res,next) =>{
 
 //Middlewares
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json()); // NEW
+app.use(bodyParser.json()); // new new
+app.use(bodyParser.urlencoded({ extended: true })); // NEW NEW
+
 app.use(morgan('dev'));
 app.use(methodOverride('_method'));
 

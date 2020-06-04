@@ -33,6 +33,21 @@
     margin-right:auto;
 }
 
+/* SortableJS class */ 
+#cardGroup .list-group-item{
+    cursor:move;
+}
+#cardGroup .list-group-item.selected {
+    transform: scale(1.02) rotate(-2deg);
+    box-shadow: 0px 0px 20px rgba(149, 153, 159, .16);
+}
+#cardGroup .list-group-item.ghost{
+    border: 2px dotted white;
+}
+#cardGroup .list-group-item.drag{
+    opacity:0;
+}
+/********************/
 
 @media (min-width:1600px) {
     .card-text{

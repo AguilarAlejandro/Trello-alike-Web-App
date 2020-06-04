@@ -46,7 +46,7 @@ boardCtrl.deleteBoard = async (req, res) => {
     if (currentBoard.createdBy != req.user.id) { // Unnecesary because this works on a POST method
         req.flash('error', 'You can only delete your boards');
         return res.redirect('/board');
-    }
+    };
     await board.findByIdAndDelete(req.params.id);
     await card.remove({ boardId: req.params.id });
     req.flash('success', 'Your board was deleted');
@@ -89,15 +89,28 @@ boardCtrl.createNewCard = async (req, res) => {
 //Render all the cards from a board
 boardCtrl.renderCards = async (req, res) => {
     const pageTitle = 'Your board';
-    const currentCards = await card.find({ boardId: req.params.id });
+    const currentCards = await card.find({ boardId: req.params.id }).sort({position:1});
     const currentBoard = await board.findById(req.params.id); // Needed on the front-end to generate proper redirect links
     previousRoute = '/board/' + req.params.id;
     res.render('./board/cards', { currentCards, currentBoard, previousRoute, pageTitle });
 };
 
+// Shuffle all the cards with Sortable
+
+boardCtrl.sortCards = async (req,res) => {
+    var cardOrder = req.body.order;
+    cardOrder = Array.from(JSON.parse(cardOrder));
+    console.log('From controller: ', cardOrder);
+    res.json({ ok: true });
+
+    for (let i = 0; i < cardOrder.length; i++) {
+        var cardId = cardOrder[i];
+        await card.findByIdAndUpdate(cardId, {position:i});
+    }
+};
+
 //Process card edition
 boardCtrl.updateCard = async (req, res) => {
-    console.log(req.body);
     const { title, description, currentCardId } = req.body; // Destructuring 
     await card.findByIdAndUpdate(currentCardId, { cardTitle: title, cardDescription: description });
     req.flash('success', 'Your card was edited');

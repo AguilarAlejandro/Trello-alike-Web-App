@@ -12,6 +12,7 @@ const {
     updateCard,
     deleteCard,
     addCardSubtitle,
+    sortCards,
     deleteBoard } = require('../controllers/board.controllers');
 const {isAuthenticated} = require('../config/auth');
 
@@ -37,6 +38,7 @@ router.post('/board/:id/addcard', createNewCard);
 
 // Get all cards from board
 router.get('/board/:id', isAuthenticated, renderCards);
+router.post('/board/:id', isAuthenticated, sortCards);
 
 router.put('/board/:id/editcard', isAuthenticated, updateCard);
 
