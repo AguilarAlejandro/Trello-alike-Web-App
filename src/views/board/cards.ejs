@@ -41,8 +41,8 @@
   
   grid-template-columns: repeat(auto-fit, minmax(180px,1fr))">
     <% currentCards.forEach( card => { %>
-    <li class="list-group-item" data-id="<%=card._id%>" >
-      <div class="col-md-2 cardsHorizontally">
+    <li class="list-group-item" data-id="<%=card._id%>">
+      <div class="cardsHorizontally">
         <div class="d-flex justify-content-between">
 
           <button type="button" class="transparentButton" data-toggle="modal" data-target="#cardEditModal"
@@ -61,14 +61,14 @@
           <h4 class="cardTitle"><%=card.cardTitle%></h4>
         </button>
         <% card.cardSubtitle.forEach(cardSubtitle => { %>
-        <p class="card-text badge badge-pill badge-danger my-1"><%=cardSubtitle%></p>
+        <p class="card-text badge badge-pill badge-danger my-1 card-item"><%=cardSubtitle%></p>
         <% }) %>
         <button type="button" class="transparentButton" data-toggle="modal" data-target="#cardSubAddModal"
           data-id="<%=card._id%>">
           <p class="card-text">Add a new subtitle</p>
         </button>
       </div>
-     </li> 
+    </li>
 
     <!-- Card modal -->
     <div class="modal fade" id="cardModal" tabindex="-1" role="dialog" aria-labelledby="cardModal" aria-hidden="true">
@@ -209,17 +209,19 @@
   const list = document.getElementById("cardGroup");
 
   Sortable.create(list, {
-    group:"card-list",
+    group: "card-list",
     animation: 150,
     chosenClass: "selected",
     ghostClass: "ghost",
     dragClass: "drag",
-     //Methods
-    store:{ 
+    //Methods
+    store: {
       set: (sortable) => { // To save list order
         const cardOrder = sortable.toArray();
         localStorage.setItem(sortable.options.group.name, cardOrder.join('|'));
-        $.post('/board/<%=currentBoard._id%>', { order: JSON.stringify(localStorage.getItem("card-list").split('|'))  });
+        $.post('/board/<%=currentBoard._id%>', {
+          order: JSON.stringify(localStorage.getItem("card-list").split('|'))
+        });
         console.log('From Sortable: ');
         console.log(cardOrder);
         /*$.ajax ({
@@ -234,7 +236,7 @@
                 console.log(cardOrder);
             }
         }); */
-      }, 
+      },
       /*get: (sortable) => {
         const cardOrder = localStorage.getItem(sortable.options.group.name);
         return cardOrder ? cardOrder.split('|') : [];
@@ -243,26 +245,24 @@
         // if not returns an empty array
       }, */
     },
-   // onUpdate: function (evt){
-     //$.post('/board/<%=currentBoard._id%>', { order: JSON.stringify(localStorage.getItem("card-list").split('|'))  });
-     //var order = JSON.stringify(localStorage.getItem("card-list").split('|'));
-     /* $.ajax ({
-            type: "POST",
-            url: window.location.href,
-            data: order,
-            dataType: "json",
-            cache: false,
-            success: function(data)
-            {
-                console.log('Supreme data: ');
-                console.log(data);
-            }
-        }); */
-   // } 
-   
+    // onUpdate: function (evt){
+    //$.post('/board/<%=currentBoard._id%>', { order: JSON.stringify(localStorage.getItem("card-list").split('|'))  });
+    //var order = JSON.stringify(localStorage.getItem("card-list").split('|'));
+    /* $.ajax ({
+           type: "POST",
+           url: window.location.href,
+           data: order,
+           dataType: "json",
+           cache: false,
+           success: function(data)
+           {
+               console.log('Supreme data: ');
+               console.log(data);
+           }
+       }); */
+    // } 
+
   })
-
-
 </script>
 
 </html>
