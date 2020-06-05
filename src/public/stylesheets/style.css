@@ -48,6 +48,21 @@
 }
 /********************/
 
+/** Cards */
+#cardGroup li {
+	padding: 0;
+	text-align: center;
+}
+.card-item {
+	display: block;
+	padding: 8px 0;
+}
+.transparentButton {
+	padding: 8px 0;
+}
+/* ***** */
+
+
 @media (min-width: 1600px) {
 	.card-text {
 		font-size: 0.8em;
@@ -71,16 +86,3 @@
 @media (max-width: 1200px) {
 }
 
-/** Cards */
-#cardGroup li {
-	padding: 0;
-	text-align: center;
-}
-.card-item {
-	display: block;
-	padding: 8px 0;
-}
-.transparentButton {
-	padding: 8px 0;
-}
-/* ***** */
