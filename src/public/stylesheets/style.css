@@ -33,6 +33,16 @@
 	margin-right: auto;
 }
 
+.nav-logo {
+	position: absolute; 
+    left: 50%; 
+	transform: translatex(-50%); 
+	opacity:0.5;
+}
+.nav-logo:hover{
+	opacity:1;
+}
+
 /* SortableJS class */
 #cardGroup .list-group-item {
 	cursor: move;
@@ -87,4 +97,3 @@
 
 @media (max-width: 1200px) {
 }
-
