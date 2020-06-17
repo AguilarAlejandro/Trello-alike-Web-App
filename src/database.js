@@ -4,7 +4,8 @@ const { NODEMONGO_MONGODB_HOST, NODEMONGO_MONGODB_DATABASE, DBPASSWORD} = proces
 mongoose.connect(process.env.MONGODB_URI||`mongodb://${NODEMONGO_MONGODB_HOST}/${NODEMONGO_MONGODB_DATABASE}`, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
-    useCreateIndex:true
+    useCreateIndex:true,
+    useFindAndModify:false
 })
     .then (db=> console.log('Database connected;'))
     .catch(err=> console.log(err));

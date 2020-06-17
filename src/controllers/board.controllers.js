@@ -100,7 +100,6 @@ boardCtrl.renderCards = async (req, res) => {
 boardCtrl.sortCards = async (req,res) => {
     var cardOrder = req.body.order;
     cardOrder = Array.from(JSON.parse(cardOrder));
-    console.log('From controller: ', cardOrder);
     res.json({ ok: true });
 
     for (let i = 0; i < cardOrder.length; i++) {

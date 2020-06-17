@@ -14,5 +14,16 @@
     <script src="/javascripts/bootstrap.bundle.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/RubaXa/Sortable/Sortable.min.js"></script>
     <link rel="stylesheet" href="/stylesheets/font-awesome.min.css">
-    <link rel="stylesheet" href="/stylesheets/style.css">
+    <script> 
+        var link = document.createElement('link');  
+        link.rel = 'stylesheet';  
+        link.type = 'text/css'; 
+        if (localStorage.getItem("modeSelector")=='dark') {
+            link.href = '/stylesheets/style.css';
+        } else {
+            link.href = '/stylesheets/stylealt.css';
+        }
+        document.getElementsByTagName('HEAD')[0].appendChild(link);  
+    </script>  
+
 </head>
