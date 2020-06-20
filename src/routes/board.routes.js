@@ -2,17 +2,18 @@ const { Router } = require('express');
 const router = Router();
 const { 
     renderBoardForm, 
-    renderCardForm,
+    renderlistForm,
     createNewBoard,
-    createNewCard, 
+    createNewlist, 
     renderBoards,
-    renderCards,
+    renderlists,
     renderEditForm, 
     updateBoard, 
-    updateCard,
+    updatelist,
+    deletelist,
+    addCard,
     deleteCard,
-    addCardSubtitle,
-    sortCards,
+    sortlists,
     deleteBoard } = require('../controllers/board.controllers');
 const {isAuthenticated} = require('../config/auth');
 
@@ -31,24 +32,28 @@ router.put('/board/:id/edit', updateBoard);
 //Delete board
 router.delete('/board/:id/delete', isAuthenticated, deleteBoard);
 
-//New card
-router.get('/board/:id/addcard', isAuthenticated, renderCardForm);
+//New list
+router.get('/board/:id/addlist', isAuthenticated, renderlistForm);
 
-router.post('/board/:id/addcard', createNewCard);
+router.post('/board/:id/addlist', createNewlist);
 
-// Get all cards from board
-router.get('/board/:id', isAuthenticated, renderCards);
-router.post('/board/:id', isAuthenticated, sortCards);
+// Get all lists from board
+router.get('/board/:id', isAuthenticated, renderlists);
+router.post('/board/:id', isAuthenticated, sortlists);
 
-router.put('/board/:id/editcard', isAuthenticated, updateCard);
+router.put('/board/:id/editlist', isAuthenticated, updatelist);
 
-// Delete cards
+// Delete lists
 
-router.delete('/board/:id/delete/:id', isAuthenticated, deleteCard);
+router.delete('/board/:id/delete/:id', isAuthenticated, deletelist);
 
-// Add card subtitle
+// Add list card
 
-router.post('/board/:id/addsubtitle', isAuthenticated, addCardSubtitle)
+router.post('/board/:id/addcard', isAuthenticated, addCard)
+
+//Delete list card
+
+router.delete('/board/:id/delete/:id/:id', isAuthenticated, deleteCard);
 
 
 module.exports = router;

@@ -2,45 +2,62 @@
 <%- include('../partials/navbar.ejs') %>
 <%- include('../partials/messages.ejs') %>
 
-<div id="card-container">
-  <div class="row" id="cardsHeader">
+<div id="list-container">
+  <div class="row" id="listsHeader">
     <div class="col-3">
       <p id="title-text"><strong><%=currentBoard.boardTitle%></strong></p>
     </div>
   </div>
 
 
-  <% if (JSON.stringify(currentCards)=='[]') { %>
+  <% if (JSON.stringify(currentlists)=='[]') { %>
   <div class="row">
-    <h1 class="display-4 center">No cards to display</h1>
+    <h1 class="display-4 center">No lists to display</h1>
   </div>
   <div class="row">
-    <img src="/images/data-not-found.png" alt="No boards found" class="center">
+    <img src="/images/data-not-found.png" alt="No lists found" class="center">
   </div>
+
+  <a href="/board/<%=currentBoard._id%>/addlist" style="color:white; text-decoration:none;">
+    <div class="card" id="newlistButton">
+      <div class="row">
+        <div class="col">
+          <h1 class="display-6"
+            style="text-align:right; position:relative; top:60%; transform: translateY(-60%); left:25%;">
+            <i class="fa fa-sticky-note" aria-hidden="true"></i>
+          </h1>
+        </div>
+        <div class="col-8">
+          <h1 class="display-4" style="text-align: left; position:relative; top:50%; transform: translateY(-50%);
+          font-size: 24px;">New list</h1>
+        </div>
+      </div>
+    </div>
+  </a>
 
   <% } else { %>
 
   <div class="row p-1 d-flex justify-content-left" style="margin-left:0px;">
-    <ul class="card boardCards list-group" id="cardGroup">
-      <% currentCards.forEach( card => { %>
-      <li class="list-group-item" data-id="<%=card._id%>">
-        <div id="cardHeader">
-          <button type="button" class="transparentButton" id="card-title-text" data-toggle="modal"
-            data-target="#cardModal" data-title="<%=card.cardTitle%>" data-desc="<%=card.cardDescription%>">
-            <p><strong><%=card.cardTitle%></strong></p>
+    <ul class="card boardlists list-group" id="listGroup">
+      <% currentlists.forEach( list => { %>
+      <li class="list-group-item" data-id="<%=list._id%>">
+        <div id="listHeader">
+          <button type="button" class="transparentButton" id="list-title-text" data-toggle="modal"
+            data-target="#listModal" data-title="<%=list.listTitle%>" data-desc="<%=list.listDescription%>">
+            <p><strong><%=list.listTitle%></strong></p>
           </button>
           <span>
             <div class="dropdown show">
-              <a class="btn" style="color:black;" href="#" role="button" id="optionsMenu"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <a class="btn" style="color:black;" href="#" role="button" id="optionsMenu" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
                 ...
               </a>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <button type="button" class="dropdown-item" data-toggle="modal" data-target="#cardEditModal"
-                  data-title="<%=card.cardTitle%>" data-desc="<%=card.cardDescription%>" data-id="<%=card._id%>">
+                <button type="button" class="dropdown-item" data-toggle="modal" data-target="#listEditModal"
+                  data-title="<%=list.listTitle%>" data-desc="<%=list.listDescription%>" data-id="<%=list._id%>">
                   Edit
                 </button>
-                <form action="/board/<%=card.boardId%>/delete/<%=card._id%>?_method=DELETE" method="POST">
+                <form action="/board/<%=list.boardId%>/delete/<%=list._id%>?_method=DELETE" method="POST">
                   <input type="hidden" name="method" value="DELETE">
                   <button type="submit" class="dropdown-item" style="color:white; width:100%;">
                     Delete
@@ -50,25 +67,31 @@
             </div>
           </span>
         </div>
-
-        <% card.cardSubtitle.forEach(cardSubtitle => { %>
-        <div class="card-text btn my-2" id="cardSubtitles">
-          <div id="gonorrea"><%=cardSubtitle%></div>
-          <span class="badge">X</span>
+        <% currentCards.forEach(card => { %>
+        <% if (card.listId==list._id){ %>
+        <div class="list-text btn my-2" id="cardSubtitles">
+          <div id="gonorrea"><%=card.cardTitle%></div>
+          <form action="/board/<%=list.boardId%>/delete/<%=list._id%>/<%=card._id%>?_method=DELETE" method="POST">
+            <input type="hidden" name="method" value="DELETE">
+            <button type="submit" class="badge">
+              X
+            </button>
+          </form>
         </div>
+        <% } %>
         <% }) %>
         <button type="button" class="transparentButton" id="newSubButton" data-toggle="modal"
-          data-target="#cardSubAddModal" data-id="<%=card._id%>">
-          <p class="card-text">Add a new subtitle</p>
+          data-target="#listSubAddModal" data-id="<%=list._id%>">
+          <p class="card-text">Add new card</p>
         </button>
       </li>
 
-      <!-- Card modal -->
-      <div class="modal fade" id="cardModal" tabindex="-1" role="dialog" aria-labelledby="cardModal" aria-hidden="true">
+      <!-- List view modal -->
+      <div class="modal fade" id="listModal" tabindex="-1" role="dialog" aria-labelledby="listModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="cardModal"></h5>
+              <h5 class="modal-title" id="listModal"></h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -83,21 +106,21 @@
         </div>
       </div>
 
-      <!-- Card edit modal-->
-      <div class="modal fade" id="cardEditModal" tabindex="-1" role="dialog" aria-labelledby="cardEditModal"
+      <!-- List edit modal-->
+      <div class="modal fade" id="listEditModal" tabindex="-1" role="dialog" aria-labelledby="listEditModal"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="cardEditModal">Edit <%=card.cardTitle%></h5>
+              <h5 class="modal-title" id="listEditModal">Edit <%=list.listTitle%></h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-              <div class="card text-center">
-                <div class="card-body">
-                  <form action="/board/<%=card.boardId%>/editcard?_method=PUT" method="post">
+              <div class="list text-center">
+                <div class="list-body">
+                  <form action="/board/<%=list.boardId%>/editlist?_method=PUT" method="post">
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">
                         <span class="input-group-text">Title</span>
@@ -108,7 +131,7 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text">Description</span>
                       </div>
-                      <textarea name="description" class="form-control" id="dTextArea"></textarea>
+                      <textarea name="description" class="form-control dTextArea"></textarea>
                     </div>
                 </div>
               </div>
@@ -116,19 +139,19 @@
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
               <button type="submit" class="btn btn-primary">Save changes</button>
-              <input type="hidden" name="currentCardId" id="cCardId">
+              <input type="hidden" name="currentlistId" class="clistId">
               </form>
             </div>
           </div>
         </div>
       </div>
-      <!-- Card subtitle add modal-->
-      <div class="modal fade" id="cardSubAddModal" tabindex="-1" role="dialog" aria-labelledby="cardSubAddModal"
+      <!-- Card add modal-->
+      <div class="modal fade" id="listSubAddModal" tabindex="-1" role="dialog" aria-labelledby="listSubAddModal"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="cardSubAddModal">Add a new card subtitle</h5>
+              <h5 class="modal-title" id="listSubAddModal">Add a new card</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -136,28 +159,28 @@
             <div class="modal-body">
               <div class="card text-center">
                 <div class="card-body">
-                  <form action="/board/<%=card.boardId%>/addsubtitle" method="post">
+                  <form action="/board/<%=list.boardId%>/addcard" method="post">
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">
-                        <span class="input-group-text">Subtitle</span>
+                        <span class="input-group-text">Card</span>
                       </div>
-                      <input type="text" class="form-control" name="title" placeholder="Enter card subtitle here">
+                      <input type="text" class="form-control" name="title" placeholder="Enter card here">
                     </div>
                 </div>
               </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-              <button type="submit" class="btn btn-primary">Add subtitle</button>
-              <input type="hidden" name="currentCardId" id="currentId">
+              <button type="submit" class="btn btn-primary">Add card</button>
+              <input type="hidden" name="currentListId">
               </form>
             </div>
           </div>
         </div>
       </div>
       <%})%>
-      <a href="/board/<%=currentBoard._id%>/addcard" style="color:white; text-decoration:none;">
-        <div class="card" id="newCardButton">
+      <a href="/board/<%=currentBoard._id%>/addlist" style="color:white; text-decoration:none;">
+        <div class="card" id="newlistButton">
           <div class="row">
             <div class="col">
               <h1 class="display-6"
@@ -167,7 +190,7 @@
             </div>
             <div class="col-8">
               <h1 class="display-4" style="text-align: left; position:relative; top:50%; transform: translateY(-50%);
-              font-size: 24px;">New card</h1>
+              font-size: 24px;">New list</h1>
             </div>
           </div>
         </div>
@@ -178,9 +201,9 @@
 
 </div>
 <script>
-  //Function that passes the correct card title and description to the modal
+  //Function that passes the correct list title and description to the modal
 
-  $('#cardModal').on('show.bs.modal', function (event) {
+  $('#listModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget)
     var title = button.data('title')
     var desc = button.data('desc')
@@ -189,31 +212,31 @@
     modal.find('.modal-desc').text(desc)
   });
 
-  //Function that passes the correct card title and description to the modal edit form
+  //Function that passes the correct list title and description to the modal edit form
 
-  $('#cardEditModal').on('show.bs.modal', function (event) {
+  $('#listEditModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget)
-    var cardId = button.data('id')
+    var listId = button.data('id')
     var title = button.data('title')
     var desc = button.data('desc')
     var modal = $(this)
     modal.find('.modal-body input[name="title"]').val(title)
-    modal.find('#dTextArea').val(desc)
-    modal.find('#cCardId').val(cardId)
+    modal.find('.dTextArea').val(desc)
+    modal.find('.clistId').val(listId)
   });
 
-  //Function that passes the correct card id to the modal footer hidden variable
-  $('#cardSubAddModal').on('show.bs.modal', function (event) {
+  //Function that passes the correct list id to the modal footer hidden variable
+  $('#listSubAddModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget)
     var recipient = button.data('id')
     var modal = $(this)
     modal.find('.modal-footer input').val(recipient)
   })
 
-  const list = document.getElementById("cardGroup");
+  const list = document.getElementById("listGroup");
 
   Sortable.create(list, {
-    group: "card-list",
+    group: "list-list",
     animation: 150,
     chosenClass: "selected",
     ghostClass: "ghost",
@@ -221,13 +244,11 @@
     //Methods
     store: {
       set: (sortable) => { // To save list order
-        const cardOrder = sortable.toArray();
-        localStorage.setItem(sortable.options.group.name, cardOrder.join('|'));
+        const listOrder = sortable.toArray();
+        localStorage.setItem(sortable.options.group.name, listOrder.join('|'));
         $.post('/board/<%=currentBoard._id%>', {
-          order: JSON.stringify(localStorage.getItem("card-list").split('|'))
+          order: JSON.stringify(localStorage.getItem("list-list").split('|'))
         });
-        console.log('From Sortable: ');
-        console.log(cardOrder);
       },
     },
   })

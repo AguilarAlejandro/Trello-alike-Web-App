@@ -1,5 +1,6 @@
 const boardCtrl = {};
 const board = require('../models/board');
+const list = require('../models/list');
 const card = require('../models/card');
 var previousRoute = '/';
 
@@ -48,7 +49,7 @@ boardCtrl.deleteBoard = async (req, res) => {
         return res.redirect('/board');
     };
     await board.findByIdAndDelete(req.params.id);
-    await card.remove({ boardId: req.params.id });
+    await list.remove({ boardId: req.params.id });
     req.flash('success', 'Your board was deleted');
     res.redirect('/board');
 };
@@ -60,62 +61,96 @@ boardCtrl.updateBoard = async (req, res) => {
     res.redirect('/board');
 };
 
-///////// Cards /////////
-//Render card creation form
-boardCtrl.renderCardForm = async (req, res) => {
-    const pageTitle = 'Add new card';
+///////// lists /////////
+//Render list creation form
+boardCtrl.renderlistForm = async (req, res) => {
+    const pageTitle = 'Add new list';
     previousRoute = req.originalUrl
     previousRoute = previousRoute.slice(0, previousRoute.length - 7)
     const currentBoard = await board.findById(req.params.id);
-    res.render('./board/cardsForm', { currentBoard, pageTitle });
+    res.render('./board/listsForm', { currentBoard, pageTitle });
 };
-//Process card creation
-boardCtrl.createNewCard = async (req, res) => {
+//Process list creation
+boardCtrl.createNewlist = async (req, res) => {
     if (((typeof req.body.title == 'undefined') || (req.body.title == '')) || ((typeof req.body.description == 'undefined') || (req.body.description == ''))) {
         req.flash('error', 'You cannot leave any field empty');
         res.redirect('/board');
     }
     else {
-        const cardTitle = req.body.title;
-        const cardDescription = req.body.description;
+        const listTitle = req.body.title;
+        const listDescription = req.body.description;
         const addedBy = req.user.id
         const boardId = previousRoute.slice(7, previousRoute.length - 1);
-        const newCard = new card({ cardTitle, cardDescription, addedBy, boardId });
-        await newCard.save();
-        req.flash('success', 'Card added succesfully');
+        var posi = await list.find().sort({position:-1}).limit(1) // To get the current maximum position
+        posi = JSON.stringify(posi);
+        posi = JSON.parse(posi.slice(1,posi.length-1));
+        const position = posi.position+1;
+        const newlist = new list({ listTitle, listDescription, addedBy, boardId, position });
+        await newlist.save();
+        req.flash('success', 'List added succesfully');
         res.redirect(previousRoute);
     }
 };
-//Render all the cards from a board
-boardCtrl.renderCards = async (req, res) => {
+//Render all the lists from a board
+boardCtrl.renderlists = async (req, res) => {
     const pageTitle = 'Your board';
+    const currentlists = await list.find({ boardId: req.params.id }).sort({position:1});
     const currentCards = await card.find({ boardId: req.params.id }).sort({position:1});
     const currentBoard = await board.findById(req.params.id); // Needed on the front-end to generate proper redirect links
     previousRoute = '/board/' + req.params.id;
-    res.render('./board/cards', { currentCards, currentBoard, previousRoute, pageTitle });
+    res.render('./board/lists', { currentlists, currentCards, currentBoard, previousRoute, pageTitle });
 };
 
-// Shuffle all the cards with Sortable
+// Shuffle all the lists with Sortable
 
-boardCtrl.sortCards = async (req,res) => {
-    var cardOrder = req.body.order;
-    cardOrder = Array.from(JSON.parse(cardOrder));
+boardCtrl.sortlists = async (req,res) => {
+    var listOrder = req.body.order;
+    listOrder = Array.from(JSON.parse(listOrder));
     res.json({ ok: true });
 
-    for (let i = 0; i < cardOrder.length; i++) {
-        var cardId = cardOrder[i];
-        await card.findByIdAndUpdate(cardId, {position:i});
+    for (let i = 0; i < listOrder.length; i++) {
+        var listId = listOrder[i];
+        await list.findByIdAndUpdate(listId, {position:i});
     }
 };
 
-//Process card edition
-boardCtrl.updateCard = async (req, res) => {
-    const { title, description, currentCardId } = req.body; // Destructuring 
-    await card.findByIdAndUpdate(currentCardId, { cardTitle: title, cardDescription: description });
-    req.flash('success', 'Your card was edited');
+//Process list edition
+boardCtrl.updatelist = async (req, res) => {
+    const { title, description, currentlistId } = req.body; // Destructuring 
+    await list.findByIdAndUpdate(currentlistId, { listTitle: title, listDescription: description });
+    req.flash('success', 'Your list was edited');
     res.redirect(previousRoute);
 };
-//Process card deletion
+//Process list deletion
+boardCtrl.deletelist = async (req, res) => {
+    const currentlist = await list.findById(req.params.id);
+    if (currentlist.addedBy != req.user.id) { // Unnecesary because this works on a POST method
+        req.flash('error', 'You can only delete your lists');
+        return res.redirect(previousRoute);
+    }
+    await list.findByIdAndDelete(req.params.id)
+    req.flash('success', 'Your list was deleted');
+    res.redirect(previousRoute);
+};
+// Process subtitle addition
+boardCtrl.addCard = async (req, res) => {
+   /* await list.updateOne(
+        { _id: req.body.currentListId },
+        {
+            $addToSet: { "listSubtitle": req.body.title }
+        }); */
+    const cardTitle = req.body.title;
+    const listId = req.body.currentListId;
+    const boardId = req.params.id
+    const addedBy = req.user.id;
+    var posi = await card.countDocuments({listId:req.body.currentListId})
+    // The previous line returns the number of cards that belong to 'currentListId'
+    const newCard = new card({cardTitle, listId, boardId, addedBy, posi}); 
+    await newCard.save();
+    req.flash('success', 'Your card was added!');
+    res.redirect('/board'); 
+};
+
 boardCtrl.deleteCard = async (req, res) => {
     const currentCard = await card.findById(req.params.id);
     if (currentCard.addedBy != req.user.id) { // Unnecesary because this works on a POST method
@@ -125,16 +160,6 @@ boardCtrl.deleteCard = async (req, res) => {
     await card.findByIdAndDelete(req.params.id)
     req.flash('success', 'Your card was deleted');
     res.redirect(previousRoute);
-};
-// Process subtitle addition
-boardCtrl.addCardSubtitle = async (req, res) => {
-    await card.updateOne(
-        { _id: req.body.currentCardId },
-        {
-            $addToSet: { "cardSubtitle": req.body.title }
-        });
-    req.flash('success', 'Your subtitle was added!');
-    res.redirect('/board');
 };
 
 module.exports = boardCtrl;

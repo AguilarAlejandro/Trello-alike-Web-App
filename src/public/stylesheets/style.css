@@ -116,28 +116,28 @@ nav a:hover{
   }
 
 /* SortableJS class */
-#cardGroup .list-group-item {
+#listGroup .list-group-item {
 	cursor: move;
 }
-#cardGroup .list-group-item.selected {
+#listGroup .list-group-item.selected {
 	transform: scale(1.02) rotate(-2deg);
 	box-shadow: 0px 0px 20px rgba(149, 153, 159, .16);
 }
-#cardGroup .list-group-item.ghost {
+#listGroup .list-group-item.ghost {
 	border: 2px dotted white;
 }
-#cardGroup .list-group-item.drag {
+#listGroup .list-group-item.drag {
 	opacity: 0;
 }
 /********************/
 
-/** Cards */
-#cardGroup li {
+/** lists */
+#listGroup li {
 	padding: 0;
 	text-align: center;
 	margin-left:5px;
 }
-.card-item {
+.list-item {
 	display: block;
 	padding: 8px 0;
 }
@@ -148,13 +148,13 @@ nav a:hover{
 
 
 @media (min-width: 1600px) {
-	.card-text {
+	.list-text {
 		font-size: 0.8em;
 	}
 }
 
 @media (max-width: 768px) {
-	.boardCards {
+	.boardlists {
 		margin-top: 10px;
 		margin-bottom: 10px;
 	}
