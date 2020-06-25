@@ -30,14 +30,17 @@ nav{
 	position:fixed !important;
 	top:0px !important;
 	width:100%;
-	z-index:1
-
+	z-index:1;
+}
+#navbarMainContainer{
+	padding-right:0; 
+	padding-left:0; 
+	margin-left:-9px;
 }
 .nav-link{
 	background-color:rgba(255,255,255,0.4);
 	/* Following lines are for non nav-item elements */
-	margin-top: auto; 
-	margin-bottom: auto;
+	align-self:center;
 	border-radius:7%;
 	font-size:17px;
 	font-weight:bold;
@@ -45,12 +48,14 @@ nav{
 	margin-right: 2px;
 	margin-left:2px;
 	
+	
 }
 .nav-link:hover{
 	background-color:rgba(255,255,255,0.27);
 }
 nav p{
-	transform: translateY(25%);
+	margin-top:auto;
+	margin-bottom:auto;
 	margin-right:3px;
 }
 nav a{
@@ -86,6 +91,7 @@ nav i{
 }
 .nav-logo:hover{
 	opacity:1;
+
 }
 
 #modeButton{
@@ -104,7 +110,6 @@ nav li{
 	display: inline-block;
 	width: 30px;
 	height: 15px;
-/*	transform:scale(0.8); */
 
 }
   .switch input { 
