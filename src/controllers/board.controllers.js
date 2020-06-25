@@ -134,21 +134,17 @@ boardCtrl.deletelist = async (req, res) => {
 };
 // Process subtitle addition
 boardCtrl.addCard = async (req, res) => {
-   /* await list.updateOne(
-        { _id: req.body.currentListId },
-        {
-            $addToSet: { "listSubtitle": req.body.title }
-        }); */
     const cardTitle = req.body.title;
     const listId = req.body.currentListId;
     const boardId = req.params.id
     const addedBy = req.user.id;
+    previousRoute = req.originalUrl.slice(0, req.originalUrl.length - 7)
     var posi = await card.countDocuments({listId:req.body.currentListId})
     // The previous line returns the number of cards that belong to 'currentListId'
     const newCard = new card({cardTitle, listId, boardId, addedBy, posi}); 
     await newCard.save();
     req.flash('success', 'Your card was added!');
-    res.redirect('/board'); 
+    res.redirect(previousRoute); 
 };
 
 boardCtrl.deleteCard = async (req, res) => {

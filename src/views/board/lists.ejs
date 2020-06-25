@@ -3,7 +3,7 @@
 <%- include('../partials/messages.ejs') %>
 
 <div id="list-container">
-  <div class="row" id="listsHeader">
+  <div class="row" id="boardHeader">
     <div class="col-3">
       <p id="title-text"><strong><%=currentBoard.boardTitle%></strong></p>
     </div>
@@ -37,7 +37,7 @@
 
   <% } else { %>
 
-  <div class="row p-1 d-flex justify-content-left" style="margin-left:0px;">
+  <div class="row p-1 d-flex justify-content-left" id="innerListContainer" style="margin-left:0px;">
     <ul class="card boardlists list-group" id="listGroup">
       <% currentlists.forEach( list => { %>
       <li class="list-group-item" data-id="<%=list._id%>">
@@ -70,7 +70,7 @@
         <% currentCards.forEach(card => { %>
         <% if (card.listId==list._id){ %>
         <div class="list-text btn my-2" id="cardSubtitles">
-          <div id="gonorrea"><%=card.cardTitle%></div>
+          <div id="CardText"><%=card.cardTitle%></div>
           <form action="/board/<%=list.boardId%>/delete/<%=list._id%>/<%=card._id%>?_method=DELETE" method="POST">
             <input type="hidden" name="method" value="DELETE">
             <button type="submit" class="badge">
@@ -80,7 +80,7 @@
         </div>
         <% } %>
         <% }) %>
-        <button type="button" class="transparentButton" id="newSubButton" data-toggle="modal"
+        <button type="button" class="transparentButton" id="newCardButton" data-toggle="modal"
           data-target="#listSubAddModal" data-id="<%=list._id%>">
           <p class="card-text">Add new card</p>
         </button>
@@ -252,6 +252,11 @@
       },
     },
   })
+
+  $(".modal").on("hidden.bs.modal", function(){
+    $(this).find('form')[0].trigger('reset');
+});
+
 </script>
 
 </html>
