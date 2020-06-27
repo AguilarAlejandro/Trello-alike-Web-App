@@ -7,7 +7,7 @@ var previousRoute = '/';
 ///////// Boards /////////
 boardCtrl.renderBoardForm = (req, res) => {
     const pageTitle = 'Create new board';
-    res.render('board/boardForm',{pageTitle});
+    res.render('board/boardForm', { pageTitle });
 };
 
 boardCtrl.createNewBoard = async (req, res) => {
@@ -81,14 +81,15 @@ boardCtrl.createNewlist = async (req, res) => {
         const listDescription = req.body.description;
         const addedBy = req.user.id
         const boardId = previousRoute.slice(7, previousRoute.length - 1);
-        var posi = await list.find().sort({position:-1}).limit(1) // To get the current maximum position
-        if ((typeof posi == 'undefined') || (posi == '')) {
-            posi=-1;
-        }
+        var posi = await list.find().sort({ position: -1 }).limit(1) // To get the current maximum position
         posi = JSON.stringify(posi);
-        posi = JSON.parse(posi.slice(1,posi.length-1));
-        const position = posi.position+1;
-        const newlist = new list({ listTitle, listDescription, addedBy, boardId, position });
+        if ((typeof posi == 'undefined') || (posi == '[]')) {
+            var position = 0;
+        } else {
+            posi = JSON.parse(posi.slice(1, posi.length - 1));
+            var position = posi.position + 1;
+        }
+        const newlist = new list({ listTitle, listDescription, addedBy, boardId, position});
         await newlist.save();
         req.flash('success', 'List added succesfully');
         res.redirect(previousRoute);
@@ -97,8 +98,8 @@ boardCtrl.createNewlist = async (req, res) => {
 //Render all the lists from a board
 boardCtrl.renderlists = async (req, res) => {
     const pageTitle = 'Your board';
-    const currentlists = await list.find({ boardId: req.params.id }).sort({position:1});
-    const currentCards = await card.find({ boardId: req.params.id }).sort({position:1});
+    const currentlists = await list.find({ boardId: req.params.id }).sort({ position: 1 });
+    const currentCards = await card.find({ boardId: req.params.id }).sort({ position: 1 });
     const currentBoard = await board.findById(req.params.id); // Needed on the front-end to generate proper redirect links
     previousRoute = '/board/' + req.params.id;
     res.render('./board/lists', { currentlists, currentCards, currentBoard, previousRoute, pageTitle });
@@ -106,14 +107,14 @@ boardCtrl.renderlists = async (req, res) => {
 
 // Shuffle all the lists with Sortable
 
-boardCtrl.sortlists = async (req,res) => {
+boardCtrl.sortlists = async (req, res) => {
     var listOrder = req.body.order;
     listOrder = Array.from(JSON.parse(listOrder));
     res.json({ ok: true });
 
     for (let i = 0; i < listOrder.length; i++) {
         var listId = listOrder[i];
-        await list.findByIdAndUpdate(listId, {position:i});
+        await list.findByIdAndUpdate(listId, { position: i });
     }
 };
 
@@ -142,12 +143,12 @@ boardCtrl.addCard = async (req, res) => {
     const boardId = req.params.id
     const addedBy = req.user.id;
     previousRoute = req.originalUrl.slice(0, req.originalUrl.length - 7)
-    var posi = await card.countDocuments({listId:req.body.currentListId})
+    var posi = await card.countDocuments({ listId: req.body.currentListId })
     // The previous line returns the number of cards that belong to 'currentListId'
-    const newCard = new card({cardTitle, listId, boardId, addedBy, posi}); 
+    const newCard = new card({ cardTitle, listId, boardId, addedBy, posi });
     await newCard.save();
     req.flash('success', 'Your card was added!');
-    res.redirect(previousRoute); 
+    res.redirect(previousRoute);
 };
 
 boardCtrl.deleteCard = async (req, res) => {
