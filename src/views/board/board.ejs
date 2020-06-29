@@ -33,26 +33,33 @@
 <% } else { %>
 <% boards.forEach(board =>  { %>
 <div class="row p-5">
-    <div class="col-md-4 boardsVertically">
-        <div class="card">
+    <div class="col-md-2 boardsContainer">
+        <div class="card" id="boards">
             <div class="d-flex justify-content-between">
-                <a href="/board/<%=board._id%>/edit">
+                <a href="/board/<%=board._id%>/edit" style="z-index:2;">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                 </a>
-                <form action="/board/<%=board._id%>/delete?_method=DELETE" method="POST">
+                <form action="/board/<%=board._id%>/delete?_method=DELETE" method="POST" style="z-index:2;">
                     <input type="hidden" name="method" value="DELETE">
                     <button type="submit" class="btn btn-danger btn-sm">
                         <i class="fa fa-times" style="width:20px;" aria-hidden="true"></i>
                     </button>
                 </form>
             </div>
-            <h4 style="text-align:center;"><a href="/board/<%=board._id%>"><%=board.boardTitle%></a></h4>
+            <a href="/board/<%=board._id%>" class="stretched-link">
+                <h4 style="text-align:center;"><%=board.boardTitle%></h4>
+            </a>
             <div class="card-body">
                 <p><%=board.boardDescription%></p>
             </div>
         </div>
+
     </div>
 </div>
 <%})%>
 <%}%>
 </html>
+
+<script>
+    document.getElementsByTagName("nav")[0].style.backgroundColor="#026AA7";
+</script>

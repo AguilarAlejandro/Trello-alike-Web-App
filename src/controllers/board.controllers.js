@@ -91,7 +91,6 @@ boardCtrl.createNewlist = async (req, res) => {
         }
         const newlist = new list({ listTitle, listDescription, addedBy, boardId, position});
         await newlist.save();
-        req.flash('success', 'List added succesfully');
         res.redirect(previousRoute);
     }
 };
@@ -133,7 +132,6 @@ boardCtrl.deletelist = async (req, res) => {
         return res.redirect(previousRoute);
     }
     await list.findByIdAndDelete(req.params.id)
-    req.flash('success', 'Your list was deleted');
     res.redirect(previousRoute);
 };
 // Process subtitle addition
@@ -147,7 +145,6 @@ boardCtrl.addCard = async (req, res) => {
     // The previous line returns the number of cards that belong to 'currentListId'
     const newCard = new card({ cardTitle, listId, boardId, addedBy, posi });
     await newCard.save();
-    req.flash('success', 'Your card was added!');
     res.redirect(previousRoute);
 };
 
@@ -158,7 +155,6 @@ boardCtrl.deleteCard = async (req, res) => {
         return res.redirect(previousRoute);
     }
     await card.findByIdAndDelete(req.params.id)
-    req.flash('success', 'Your card was deleted');
     res.redirect(previousRoute);
 };
 

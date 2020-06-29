@@ -22,15 +22,28 @@
 }
 /*****************/
 
+#listsBody{
+	position:fixed;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	max-width:inherit;
+	height:100vh;
+	background-color:rgb(75, 191, 107);
+	z-index:-1;
+}
+
 /* Navigation bar */
 
 nav{
-	background-color:rgba(0,0,0,0.20);
+	background-color:#40A35B;
 	max-height:40px;
 	position:fixed !important;
 	top:0px !important;
 	width:100%;
 	z-index:1;
+	color:white;
 }
 #navbarMainContainer{
 	padding-right:0; 
@@ -167,7 +180,7 @@ nav li{
 /********************/
 
 body{
-	background-color:rgb(75, 191, 107);
+	background-color:whitesmoke;
 	margin-top:50px !important; /* Margin same as navbar size */
 }
 
@@ -175,10 +188,25 @@ body{
 
 /* Board */ 
 
+#boards{
+	background-color:rgb(61, 172, 92);
+}
+#boards:hover{
+	background-color:rgb(54, 153, 82);
+	transition:0.3s;
+}
+#boards a{
+	text-decoration:none;
+	color:white;
+}
+#boards .card-body{
+	color:white;
+}
+
 #boardHeader{
 	justify-content:left;
 	margin-left:3px;
-
+	max-width:99%;
 }
 
 #title-text{
@@ -201,16 +229,43 @@ body{
 	flex: 0 0 auto;
 }
 .createNewButton{
-	background-color:rgba(255,255,255,0.20)
+	background-color:rgba(0,0,0,0.20);
+	transition:0.3s;
 }
 .createNewButton:hover{
-	background-color:rgba(255,255,255,0.40)
+	background-color:rgba(0,0,0,0.40);
+	transition:0.3s;
 }
 
 #newCardButton{
 	position:relative;
 	bottom:0;
 }
+#newListButton{
+	background-color:rgba(255, 255, 255,0.2);
+}
+#newListButton:hover{
+	background-color:rgba(255, 255, 255,0.3);
+	transition: 0.3s;
+}
+#newListButton i{
+	color: white !important;
+	text-align:right; 
+	position:relative; 
+	top:20%;
+	left:25%;
+	transform:scale(1.5);
+}
+#newListButton h1{
+	color:white;
+	text-align: left; 
+	position:relative; 
+	top:50%; 
+	right:30%;
+	transform:translateY(-50%);
+	font-size: 20px;
+}
+
 
 /* Lists ordering */ 
 
@@ -330,7 +385,7 @@ body{
 		margin-top: 10px;
 		margin-bottom: 10px;
 	}
-	.boardsVertically {
+	.boardsContainer {
 		margin-top: 10px;
 		margin-bottom: 10px;
 	}
