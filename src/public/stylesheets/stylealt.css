@@ -254,6 +254,12 @@ body{
 	background-color:whitesmoke;
 	margin-top:35px !important; /* Margin same as navbar size */
 	font-family: 'Charlie Text';
+	src: url('../fonts/CharlieText-Regular.ttf')
+	format('truetype');
+	src: url('../fonts/CharlieDisplay-LightItalic.ttf')
+	format('truetype');
+	src: url('../fonts/CharlieText-SemiboldItalic.ttf')
+	format('truetype');
 }
 
 .display-4, .display-3{
@@ -495,6 +501,24 @@ body{
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 	-webkit-margin-after: 10px;
+  }
+
+  @font-face{
+	/* Normal version */
+	font-family: 'Charlie Text';
+	src: url('../fonts/CharlieText-Regular.ttf')
+	format('truetype');
+	font-weight:normal;
+		/* Italic version */
+	font-family: 'Charlie Text';
+	src: url('../fonts/CharlieDisplay-LightItalic.ttf')
+	format('truetype');
+	font-weight:italic;
+	/* Bold version */
+	font-family: 'Charlie Text';
+	src: url('../fonts/CharlieText-SemiboldItalic.ttf')
+	format('truetype');
+	font-weight:bold;
   }
 
 
