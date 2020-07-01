@@ -254,18 +254,12 @@ body{
 	background-color:whitesmoke;
 	margin-top:35px !important; /* Margin same as navbar size */
 	font-family: 'Charlie Text';
-	src: url('../fonts/CharlieText-Regular.ttf')
-	format('truetype');
-	src: url('../fonts/CharlieDisplay-LightItalic.ttf')
-	format('truetype');
-	src: url('../fonts/CharlieText-SemiboldItalic.ttf')
-	format('truetype');
+
 }
 
 .display-4, .display-3{
 	font-family:'Charlie Text';
-	font-style: normal;
-	font-weight:500;
+	font-weight:normal;
 }
 
 
@@ -423,7 +417,6 @@ body{
 	padding: 8px 0;
 	background-color:#fff !important;
 	color:black;
-	font-weight:400;
 	font-size:14px !important; /* Probably bootstrap badge class messing around */ 
 	border-radius:0%;
 	margin-left:7px;
@@ -509,16 +502,13 @@ body{
 	src: url('../fonts/CharlieText-Regular.ttf')
 	format('truetype');
 	font-weight:normal;
+	font-style:normal;
 		/* Italic version */
-	font-family: 'Charlie Text';
+	font-family: 'Charlie Display';
 	src: url('../fonts/CharlieDisplay-LightItalic.ttf')
 	format('truetype');
-	font-weight:italic;
-	/* Bold version */
-	font-family: 'Charlie Text';
-	src: url('../fonts/CharlieText-SemiboldItalic.ttf')
-	format('truetype');
-	font-weight:bold;
+	font-weight:lighter;
+	font-style:italic;
   }
 
 
