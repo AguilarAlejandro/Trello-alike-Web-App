@@ -255,13 +255,14 @@ body{
 	margin-top:35px !important; /* Margin same as navbar size */
 	font-family: 'Charlie Text';
 	font-weight:normal;
+	font-style: normal;
 }
 
 .display-4, .display-3{
 	font-family:'Charlie Text';
 	font-weight:normal;
+	font-style: normal;
 }
-
 
 /* Board */ 
 
@@ -497,18 +498,15 @@ body{
   }
 
   @font-face{
+
 	/* Normal version */
 	font-family: 'Charlie Text';
 	src: url('../fonts/CharlieText-Regular.ttf')
 	format('truetype');
 	font-weight:normal;
 	font-style:normal;
-		/* Italic version */
-	font-family: 'Charlie Display';
-	src: url('../fonts/CharlieDisplay-LightItalic.ttf')
-	format('truetype');
-	font-weight:lighter;
-	font-style:italic;
+
+
   }
 
 
