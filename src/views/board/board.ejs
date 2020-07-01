@@ -2,7 +2,7 @@
 <%- include('../partials/navbar.ejs') %>
 <%- include('../partials/messages.ejs') %>
 
-<h1 class="display-4" style="text-align:center;">All boards</h1>
+<h1 class="display-4" style="text-align:center;">Your boards</h1>
 
 <div class="row justify-content-center">
     <a href="/addboard" style="color:white; text-decoration:none;">
@@ -31,8 +31,10 @@
     <img src="/images/data-not-found.png" alt="No boards found" class="center">
 </div>
 <% } else { %>
-<% boards.forEach(board =>  { %>
+
 <div class="row p-5">
+    <% boards.forEach(board =>  { %>
+
     <div class="col-md-2 boardsContainer">
         <div class="card" id="boards">
             <div class="d-flex justify-content-between">
@@ -49,17 +51,14 @@
             <a href="/board/<%=board._id%>" class="stretched-link">
                 <h4 style="text-align:center;"><%=board.boardTitle%></h4>
             </a>
-            <div class="card-body">
+           <!-- <div class="card-body">
                 <p><%=board.boardDescription%></p>
-            </div>
-        </div>
+            </div> -->
+        </div> 
 
     </div>
-</div>
+
 <%})%>
+</div>
 <%}%>
 </html>
-
-<script>
-    document.getElementsByTagName("nav")[0].style.backgroundColor="#026AA7";
-</script>

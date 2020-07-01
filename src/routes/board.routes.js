@@ -2,7 +2,6 @@ const { Router } = require('express');
 const router = Router();
 const { 
     renderBoardForm, 
-    renderlistForm,
     createNewBoard,
     createNewlist, 
     renderBoards,
@@ -33,7 +32,6 @@ router.put('/board/:id/edit', updateBoard);
 router.delete('/board/:id/delete', isAuthenticated, deleteBoard);
 
 //New list
-router.get('/board/:id/addlist', isAuthenticated, renderlistForm);
 
 router.post('/board/:id/addlist', createNewlist);
 

@@ -20,6 +20,15 @@
 	font-size: 16px !important;
 	border: 1px solid black;
 }
+
+/* Loading spinner */
+
+.spinner-border{
+	position:absolute;
+	top:49%;
+	left:49%;
+}
+
 /*****************/
 
 #listsBody{
@@ -36,8 +45,23 @@
 
 /* Navigation bar */
 
-nav{
-	background-color:#40A35B;
+#visitorNav {
+	background: rgb(0,144,208);
+	background: linear-gradient(120deg, #0079bf, #3B6BC3);
+	max-height:60px;
+	position:fixed !important;
+	top:0px !important;
+	width:100%;
+	z-index:1;
+	color:white;
+}
+#visitorNav.scrolled {
+	background: #026AA7 !important;
+	transition: background 1000ms linear;
+  }
+
+#loggedNav{
+	background-color:#026AA7;
 	max-height:40px;
 	position:fixed !important;
 	top:0px !important;
@@ -64,27 +88,54 @@ nav{
 .nav-link:hover{
 	background-color:rgba(255,255,255,0.27);
 }
-nav p{
+ 
+#loggedNav p{
 	margin-top:auto;
 	margin-bottom:auto;
 	margin-right:3px;
 }
-nav a{
+#loggedNav a{
 	display:flex !important;
 	align-items:center !important;
 	color:white;
 
 }
-nav a:hover{
+#loggedNav a:hover{
 	color:white;
 }
-nav a span{
+#loggedNav a span{
 	margin-left:3px;
 }
-nav i{
+#loggedNav i{
 	transform:scale(1.1);
 }
 
+.dropdown-item{
+	color:black !important;
+}
+.dropdown-item:hover{
+	background-color:lightgrey !important;
+}
+
+#loginButton {
+	margin-right:15px;
+	align-self:center;
+}
+#loginButton a{
+	color:white;
+}
+#signUpButton{
+	background-color:white;
+	padding: 2px 10px 2px 10px;
+	border-radius:5%;
+
+}
+
+#signUpButton a{
+	color:#026AA7;
+	text-decoration:none;
+	
+}
 .navbar {
 	font-size: 20px;
 	
@@ -107,10 +158,9 @@ nav i{
 #modeButton{
 	height:30px;
 	background:transparent;
-
 }
 
-nav li{
+#loggedNav li{
 	display:inline-block;
 	text-align:center;
 }
@@ -177,23 +227,52 @@ nav li{
 	border-radius: 50%;
   }
 
+/* Home hero */ 
+
+#homeHero{
+background: rgb(0,144,208);
+background: linear-gradient(135deg, #0079bf, #5067c5);
+color:white;
+padding:4rem;
+}
+#homeHero .col{
+	margin:30px;
+}
+
+#homeHero h1{
+	/*text-align:justify; */
+	font-size:56px;
+
+}
+#homeHero p{
+	font-size:24px;
+}
+
 /********************/
 
 body{
 	background-color:whitesmoke;
-	margin-top:50px !important; /* Margin same as navbar size */
+	margin-top:35px !important; /* Margin same as navbar size */
+	font-family: 'Charlie Text';
 }
 
+.display-4, .display-3{
+	font-family:'Charlie Text';
+	font-style: normal;
+	font-weight:500;
+}
 
 
 /* Board */ 
 
 #boards{
 	background-color:rgb(61, 172, 92);
+	margin-top:10px;
 }
 #boards:hover{
 	background-color:rgb(54, 153, 82);
 	transition:0.3s;
+	transform:translateY(-3px);
 }
 #boards a{
 	text-decoration:none;
@@ -210,8 +289,9 @@ body{
 }
 
 #title-text{
-	font-size:20px;
+	font-size:18px;
 	text-align:left;
+	color:white;
 }
 
 /** Lists */
@@ -252,8 +332,7 @@ body{
 	color: white !important;
 	text-align:right; 
 	position:relative; 
-	top:20%;
-	left:25%;
+	top:10%;
 	transform:scale(1.5);
 }
 #newListButton h1{
@@ -263,7 +342,7 @@ body{
 	top:50%; 
 	right:30%;
 	transform:translateY(-50%);
-	font-size: 20px;
+	font-size: 17px;
 }
 
 

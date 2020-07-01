@@ -80,7 +80,7 @@ boardCtrl.createNewlist = async (req, res) => {
         const listTitle = req.body.title;
         const listDescription = req.body.description;
         const addedBy = req.user.id
-        const boardId = previousRoute.slice(7, previousRoute.length - 1);
+        const boardId = previousRoute.slice(7, previousRoute.length);
         var posi = await list.find().sort({ position: -1 }).limit(1) // To get the current maximum position
         posi = JSON.stringify(posi);
         if ((typeof posi == 'undefined') || (posi == '[]')) {
