@@ -254,7 +254,7 @@ body{
 	background-color:whitesmoke;
 	margin-top:35px !important; /* Margin same as navbar size */
 	font-family: 'Charlie Text';
-
+	font-weight:normal;
 }
 
 .display-4, .display-3{
