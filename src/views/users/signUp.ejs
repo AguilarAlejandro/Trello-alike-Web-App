@@ -26,7 +26,11 @@
                                 <span class="input-group-text"><i class="fa fa-envelope-o"
                                         aria-hidden="true"></i></span>
                             </div>
+                            <% if (typeof currentEmail != "undefined" && currentEmail ) { %>
+                                <input type="email" class="form-control" name="email" value="<%=currentEmail%>">
+                            <%} else {%>
                             <input type="email" class="form-control" name="email" placeholder="Enter your email">
+                            <%}%>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">

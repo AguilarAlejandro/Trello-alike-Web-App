@@ -2,8 +2,10 @@
 <%- include('../partials/navbar.ejs') %>
 <%- include('../partials/messages.ejs') %>
 
-<h1 class="display-4" style="text-align:center;">Your boards</h1>
-
+<% if (JSON.stringify(boards)!='[]') { %>
+<h1 class="display-4" style="text-align:center;">Your boards</h1> 
+<% } %>
+<hr class="mb-4">
 <div class="row justify-content-center">
     <a href="/addboard" style="color:white; text-decoration:none;">
         <div class="card createNewButton">
@@ -25,10 +27,10 @@
 
 <% if (JSON.stringify(boards)=='[]') { %>
 <div class="row">
-    <h1 class="display-4 center">No boards to display</h1>
+    <h1 class="display-4 mx-auto">No boards to display</h1>
 </div>
 <div class="row">
-    <img src="/images/data-not-found.png" alt="No boards found" class="center">
+    <img src="/images/data-not-found.png" alt="No boards found" class="mx-auto">
 </div>
 <% } else { %>
 
@@ -62,3 +64,5 @@
 </div>
 <%}%>
 </html>
+
+<script src="/javascripts/bodyMargin.js"></script>

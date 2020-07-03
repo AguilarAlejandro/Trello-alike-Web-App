@@ -8,6 +8,10 @@ var crypto = require('crypto');
 
 userCtrl.renderSignUpForm = (req, res) => {
     const pageTitle = 'Sign Up'
+    if (req.query.email) {
+        var currentEmail=req.query.email;
+        res.render('./users/signUp', {pageTitle, currentEmail});
+    }
     res.render('./users/signUp', {pageTitle});
 };
 
