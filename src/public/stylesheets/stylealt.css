@@ -43,7 +43,9 @@ body{
 /*****************/
 
 /* Navigation bar */
-
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    background-color:  #1d963b;
+}
 #visitorNav {
 	background: rgb(0,144,208);
 	background: -moz-linear-gradient(120deg, #0079bf, #3B6BC3,  100%);
@@ -502,19 +504,40 @@ padding:5.5rem;
 /* ***** */
 
 /* Responsiveness */ 
-@media (min-width: 1600px) {
+@media (min-width: 1401px) {
 	.card-text {
 		font-size: 0.8em;
 	}
+
+		/* Home hero */ 
+		#buttonsRow {
+			margin-left: 1.5rem;
+		}
+		/*************/
 }
 
 @media (max-width: 1400px) {
+	/* Home hero */ 
+	#buttonsRow {
+		margin-left: 1.5rem;
+	}
+	/*************/
 }
 
 @media (max-width: 1200px) {
+		/* Home hero */ 
+		#buttonsRow {
+			margin-left: 1.5rem;
+		}
+		/*************/
 }
 
 @media (max-width: 992px) {
+
+	/* Home hero */ 
+	#buttonsRow {
+		margin-left: 1.5rem;
+	}
 	#homeHero .container{
 		padding:0;
 	}
@@ -548,6 +571,9 @@ padding:5.5rem;
 	}
 }
 @media (max-width: 768px) {
+
+
+
 	.boardlists {
 		margin-top: 10px;
 		margin-bottom: 10px;
@@ -558,6 +584,7 @@ padding:5.5rem;
 	}
 
 	/* Home hero*/
+
 	#homeHero button{
 		margin-left:0px;
 		padding-right:30px;
@@ -568,7 +595,6 @@ padding:5.5rem;
 		width:250px;
 	}
 	#hEmailInput {
-		align-self: flex-end !important;
 		font-size:18px;
 		padding:8px 5px 7px 30px;
 		width:250px;
@@ -578,6 +604,9 @@ padding:5.5rem;
 @media (max-width:640px){
 /* Home hero*/
 
+#buttonsRow{
+	margin-left:0;
+}
 #homeHero h1{
 	font-size:40px;
 }
@@ -594,7 +623,6 @@ padding:5.5rem;
 	width:170px;
 }
 #hEmailInput {
-	align-self: flex-end !important;
 	font-size:14px;
 	padding:8px 5px 7px 30px;
 	width:170px;
@@ -602,33 +630,7 @@ padding:5.5rem;
 }
 
 @media (max-width:480px){
-	/* Home hero*/
-	
-	#homeHero h1{
-		font-size:33px;
-	}
-	#homeHero p{
-		font-size:17px;
-	}
-	#homeHero button{
-		margin-left:0px;
-		padding-right:10px;
-		padding-left:10px;
-		font-size:14px;
-		padding-top:8px;
-		padding-bottom:8px;
-		width:150px;
-	}
-	#hEmailInput {
-		align-self: flex-end !important;
-		font-size:14px;
-		padding:8px 5px 7px 30px;
-		width:150px;
-	}	
-	}
-
-	@media (max-width:480px){
-	/* Home hero*/
+/* Home hero*/
 	
 	#homeHero h1{
 		font-size:33px;
@@ -655,31 +657,36 @@ padding:5.5rem;
 
 @media (max-width:440px){
 	/* Home hero*/
+	#buttonsRow{
+		margin-left:0;
+	}
 	
 	#homeHero h1{
-		font-size:33px;
+	font-size:33px;
 	}
 	#homeHero p{
 		font-size:17px;
 	}
 	#homeHero button{
-		margin-left:0px;
 		padding-right:0px;
 		padding-left:0px;
 		font-size:14px;
 		padding-top:4px;
 		padding-bottom:4px;
-		width:120px;
+		margin-top:10px;
+		width:150px;
+		display:block;
+		margin: 10 auto !important;
 	}
 	#hEmailInput {
-		align-self: flex-end !important;
+		align-self: center !important;
 		font-size:14px;
 		padding:0px 5px 0px 10px;
-		width:120px;
+		width:150px;
+		display:block;
+		margin: 0 auto !important;
 	}	
 	}
-
-
 
 /* Scrollbar */ 
 :root {
