@@ -44,9 +44,7 @@ body{
 /*****************/
 
 /* Navigation bar */
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-    background-color:  #1d963b;
-}
+
 #visitorNav {
 	background: rgb(0,144,208);
 	background: -moz-linear-gradient(120deg, #0079bf, #3B6BC3,  100%);
@@ -340,7 +338,13 @@ padding:5.5rem;
 
 /** Lists */
 
-
+#list-container{
+	position:absolute;
+	bottom:0;
+	top:0;
+	left:0;
+	right:0;
+}
 
 #listsBody{
 	position:fixed;
@@ -682,6 +686,11 @@ padding:5.5rem;
 }
 
 @media (max-width:440px){
+
+	#list-container {
+		overflow-y:hidden;
+		overflow-x: auto
+	}
 	/* Home hero*/
 	#buttonsRow{
 		margin-left:0;
@@ -771,7 +780,6 @@ padding:5.5rem;
   }
 
   @font-face{
-
 	/* Normal version */
 	font-family: 'Charlie Text';
 	src: url('../fonts/CharlieText-Regular.ttf')
